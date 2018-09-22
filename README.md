@@ -1,4 +1,16 @@
 #################################
+#   Execution Instructions   #
+#################################
+
+To compile and run the code, simply run the following script. This defaults to use the configuration file `config/default.cfg`.
+
+	./run.sh
+
+Or, include the optional configuration file parameter.
+
+	./run.sh config/website_puzzle.cfg
+
+#################################
 #	Coding Standards	#
 #################################
 
