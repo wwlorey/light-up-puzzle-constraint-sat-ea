@@ -83,7 +83,7 @@ class LightUpPuzzle:
 
                             # Place bulbs around the square, if allowed
                             for adj_coord in adj_coord_list:
-                                if num_placed_bulbs < max_value and self.place_bulb(adj_coord, bulbs):
+                                if num_placed_bulbs < max_value and self.place_bulb(adj_coord, bulbs, allow_cross_shine=False):
                                     num_placed_bulbs += 1
 
                             # Account for black square placements with value zero
@@ -152,56 +152,59 @@ class LightUpPuzzle:
         return adj_coords
 
 
-    def place_bulb(self, coord, bulbs):
+    def place_bulb(self, coord, bulbs, allow_cross_shine=True):
         """Attempts to place a bulb at coord position on the board.
 
         Returns True on success, False on fail.
         """
         if coord in self.black_squares:
             return False # Can't place a bulb on a black square 
+        
+        if not allow_cross_shine:
+            # Check for cross-shine in the coordinate's row (same x value)
+            matching_x_coord_bulbs = [c for c in bulbs if c.x == coord.x]
+            num_x_delimeters = 0
 
-        # Check for cross-shine in the coordinate's row (same x value)
-        matching_x_coord_bulbs = [c for c in bulbs if c.x == coord.x]
-        num_x_delimeters = 0
+            for bulb_coord in matching_x_coord_bulbs:
+                min_y = min(bulb_coord.y, coord.y)
+                max_y = max(bulb_coord.y, coord.y)
 
-        for bulb_coord in matching_x_coord_bulbs:
-            min_y = min(bulb_coord.y, coord.y)
-            max_y = max(bulb_coord.y, coord.y)
+                if max_y - min_y < 2:
+                    return False
 
-            if max_y - min_y < 2:
+                for black_coord in [c for c in self.black_squares if c.x == coord.x]:
+                    if black_coord.y < max_y and black_coord.y > min_y:
+                        num_x_delimeters += 1
+
+            if num_x_delimeters < len(matching_x_coord_bulbs):
                 return False
 
-            for black_coord in [c for c in self.black_squares if c.x == coord.x]:
-                if black_coord.y < max_y and black_coord.y > min_y:
-                    num_x_delimeters += 1
+            # Check for cross-shine in the coordinate's column (same y value)
+            matching_y_coord_bulbs = [c for c in bulbs if c.y == coord.y]
+            num_y_delimeters = 0
 
-        if num_x_delimeters < len(matching_x_coord_bulbs):
-            return False
+            for bulb_coord in matching_y_coord_bulbs:
+                min_x = min(bulb_coord.x, coord.x)
+                max_x = max(bulb_coord.x, coord.x)
 
-        # Check for cross-shine in the coordinate's column (same y value)
-        matching_y_coord_bulbs = [c for c in bulbs if c.y == coord.y]
-        num_y_delimeters = 0
+                if max_x - min_x < 2:
+                    return False
 
-        for bulb_coord in matching_y_coord_bulbs:
-            min_x = min(bulb_coord.x, coord.x)
-            max_x = max(bulb_coord.x, coord.x)
+                for black_coord in [c for c in self.black_squares if c.y == coord.y]:
+                    if black_coord.x < max_x and black_coord.x > min_x:
+                        num_y_delimeters += 1
 
-            if max_x - min_x < 2:
+            if num_y_delimeters < len(matching_y_coord_bulbs):
                 return False
 
-            for black_coord in [c for c in self.black_squares if c.y == coord.y]:
-                if black_coord.x < max_x and black_coord.x > min_x:
-                    num_y_delimeters += 1
+            # Check placement of bulbs next to zero-valued black square
+            if len([c for c in self.get_adj_coords(coord) if c in self.black_squares and self.black_squares[c] == 0]) == 0:
+                bulbs.add(coord)
+                return True
 
-        if num_y_delimeters < len(matching_y_coord_bulbs):
-            return False
-
-        # Check placement of bulbs next to zero-valued black square
-        if len([c for c in self.get_adj_coords(coord) if c in self.black_squares and self.black_squares[c] == 0]) == 0:
+        else:
             bulbs.add(coord)
             return True
-
-        return False
 
 
     def visualize(self, bulbs=[]):

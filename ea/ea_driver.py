@@ -149,7 +149,7 @@ class EADriver:
 
         if int(self.config.settings['use_fitness_proportional_selection']):
             # Select parents for breeding using the fitness proportional "roulette wheel" method (with replacement)
-            self.parents = random.choices(self.population, weights=[(g.fitness * 100) / float(len(self.population)) for g in self.population], k=int(self.config.settings['parent_population_size']))
+            self.parents = random.choices(self.population, weights=[float(self.config.settings['fitness_proportional_offset']) + (abs(g.fitness) / float(self.config.settings['fitness_proportional_div'])) for g in self.population], k=int(self.config.settings['parent_population_size']))
 
         else:
             # Perform a k-tournament selection with replacement
