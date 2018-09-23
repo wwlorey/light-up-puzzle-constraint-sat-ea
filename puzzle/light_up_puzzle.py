@@ -123,6 +123,9 @@ class LightUpPuzzle:
 
             # Generate coordinate versions of the board
             generate_coord_boards()
+        
+        # Calculate the number of squares that have the possibility of being be lit up
+        self.num_possible_lit_cells = self.num_rows * self.num_cols - len(self.black_squares)
 
 
     def get_random_coord(self):
@@ -247,13 +250,25 @@ class LightUpPuzzle:
         return num_adj_black_squares 
 
 
-    def check_valid_solution(self, bulbs):
-        """Checks to see if the board is valid.
+    def get_fitness(self, bulbs):
+        """Returns the puzzle's fitness (number of lit cells / total number of white cells)
+        given bulbs (a set of bulb coordinates).
+        
+        For constraint satisfaction fitness function, the fitness is reduced by a factor (penalty_coefficient)
+        if any of (1) or (2) below are not true.
 
-        Returns True if the following conditions are met:
-        1. No bulbs shine on eachother. (guaranteed by place_bulb() function)
+        For the original problem statement fitness function, the fitness is zero if (1) or (2) are not true.
+        
+        A solution with "good" fitness satisfies these requirements:
+        1. No bulbs shine on eachother.
         2. Every black square has the required adjacent bulbs. (can be disabled using config file setting)
+
+        Note: the type of fitness function used can be specified in config.
         """
+        # Validity infringement variables
+        bulb_on_bulb_shine_count = 0
+        invalid_black_cell_constraint_count = 0
+
         # Create and populate set of shined squares
         self.shined_squares = set([])
 
@@ -272,9 +287,7 @@ class LightUpPuzzle:
                         break # Shine cannot propagate any further
                     elif coord in bulbs:
                         # Redundant check for bulb on bulb shining
-                        # Nullify the fitness of this board
-                        self.shined_squares = set([])
-                        return False
+                        bulb_on_bulb_shine_count += 1
                     else:
                         self.shined_squares.add(coord)
 
@@ -286,11 +299,21 @@ class LightUpPuzzle:
         if int(self.config.settings["enforce_adj_quotas"]):
             for coord, adj_value in self.black_squares.items():
                 if adj_value < int(self.config.settings["adj_value_dont_care"]) and self.get_num_bulbs(self.get_adj_coords(coord), bulbs) != adj_value:
-                    # Nullify the fitness of this board
-                    self.shined_squares = set([])
-                    return False
+                    invalid_black_cell_constraint_count += abs(adj_value - self.get_num_bulbs(self.get_adj_coords(coord), bulbs))
 
-        return True
+        # Calculate and return the fitness
+        fitness = len(self.shined_squares) / self.num_possible_lit_cells 
+
+        if int(self.config.settings['use_constraint_sat_fitness_function']):
+            # Use the constraint satisfaction fitness function
+            # Penalize the fitness for any validation infringements
+            fitness -= float(self.config.settings['penalty_coefficient']) * (bulb_on_bulb_shine_count + invalid_black_cell_constraint_count) / self.num_possible_lit_cells
+
+        elif bulb_on_bulb_shine_count or invalid_black_cell_constraint_count:
+            # The original problem statement fitness function is being used and some constraints are invalid
+            fitness = 0
+            
+        return fitness
 
 
     def place_bulb_randomly(self, bulbs):
@@ -327,11 +350,3 @@ class LightUpPuzzle:
                 soln_file.write(str(coord.y) + ' ' + str(coord.x) + '\n')
 
             soln_file.write('\n')
-
-
-    def get_fitness(self):
-        """Returns the fitness of the puzzle.
-
-        Fitness is defined as the number of lit squares on the board.
-        """
-        return len(self.shined_squares)

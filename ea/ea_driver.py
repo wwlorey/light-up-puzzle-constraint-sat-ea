@@ -72,13 +72,12 @@ class EADriver:
                         failure_count += 1
 
 
-        self.max_run_fitness = 0
         self.eval_count = 0
-        self.avg_fitness_ratio = 0.0
+        self.avg_fitness = 0.0
         self.total_fitnesses_seen = 0
-        self.total_fitness_ratio_sum = 0
+        self.total_fitness_sum = 0
         self.stale_fitness_count = 0
-        self.prev_avg_fitness_ratio = 0.0
+        self.prev_avg_fitness = 0.0
         self.best_fit_local_genotype = genotype_class.Genotype()
 
         # Create/reset the base puzzle class (phenotype)
@@ -106,36 +105,34 @@ class EADriver:
         If log_run is True, the state of the experiment is written to the log file.
         """ 
         for genotype in genotypes:
-            self.phenotype.check_valid_solution(genotype.bulbs)
-            genotype.fitness = self.phenotype.get_fitness()
-            genotype.fitness_ratio = genotype.fitness / (self.phenotype.num_rows * self.phenotype.num_cols - len(self.phenotype.black_squares))
+            genotype.fitness = self.phenotype.get_fitness(genotype.bulbs)
 
             # Calculate average fitness
-            self.total_fitness_ratio_sum += genotype.fitness_ratio
+            self.total_fitness_sum += genotype.fitness
             self.total_fitnesses_seen += 1
-            self.avg_fitness_ratio = self.total_fitness_ratio_sum / self.total_fitnesses_seen
+            self.avg_fitness = self.total_fitness_sum / self.total_fitnesses_seen
 
             # Determine if this fitness is the new best fitness (both locally and globally)
-            if genotype.fitness_ratio > self.best_fit_local_genotype.fitness_ratio:
+            if genotype.fitness > self.best_fit_local_genotype.fitness:
                 self.best_fit_local_genotype = genotype
 
-                if self.best_fit_local_genotype.fitness_ratio > self.best_fit_global_genotype.fitness_ratio:
+                if self.best_fit_local_genotype.fitness > self.best_fit_global_genotype.fitness:
                     self.best_fit_global_genotype = self.best_fit_local_genotype
 
                     # Write to solution file
                     self.phenotype.write_to_soln_file(self.best_fit_global_genotype.bulbs)
             
             # Determine if the population fitness is stagnating
-            if math.isclose(self.avg_fitness_ratio, self.prev_avg_fitness_ratio, rel_tol=float(self.config.settings['termination_convergence_criterion_magnitude'])):
+            if math.isclose(self.avg_fitness, self.prev_avg_fitness, rel_tol=float(self.config.settings['termination_convergence_criterion_magnitude'])):
                 self.stale_fitness_count += 1
             else:
                 self.stale_fitness_count = 0
-                self.prev_avg_fitness_ratio = self.avg_fitness_ratio
+                self.prev_avg_fitness = self.avg_fitness
             
             self.eval_count += 1
 
         if log_run:
-            self.log.write_run_data(self.eval_count, self.avg_fitness_ratio, self.best_fit_local_genotype.fitness_ratio)
+            self.log.write_run_data(self.eval_count, self.avg_fitness, self.best_fit_local_genotype.fitness)
 
 
     def select_parents(self):
@@ -152,7 +149,7 @@ class EADriver:
 
         if int(self.config.settings['use_fitness_proportional_selection']):
             # Select parents for breeding using the fitness proportional "roulette wheel" method (with replacement)
-            self.parents = random.choices(self.population, weights=[(g.fitness_ratio * 100) / float(len(self.population)) for g in self.population], k=int(self.config.settings['parent_population_size']))
+            self.parents = random.choices(self.population, weights=[(g.fitness * 100) / float(len(self.population)) for g in self.population], k=int(self.config.settings['parent_population_size']))
 
         else:
             # Perform a k-tournament selection with replacement
@@ -314,7 +311,7 @@ class EADriver:
         """Sorts the given genotype list from most fit to least fit by each
         element's fitness ratio.
         """
-        genotype_list.sort(key=lambda x : x.fitness_ratio, reverse=True)
+        genotype_list.sort(key=lambda x : x.fitness, reverse=True)
 
 
     def increment_run_count(self):
@@ -344,4 +341,4 @@ class EADriver:
                 forbidden_indices.add(rand_index)
 
         # Make the genotypes fight, return the winner
-        return max(arena_genotypes, key=lambda x : x.fitness_ratio)
+        return max(arena_genotypes, key=lambda x : x.fitness)

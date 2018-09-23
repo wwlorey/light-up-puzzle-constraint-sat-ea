@@ -9,5 +9,4 @@ class Genotype:
         else:
             self.bulbs = set([])
 
-        self.fitness = 0
-        self.fitness_ratio = 0.0
+        self.fitness = 0.0
