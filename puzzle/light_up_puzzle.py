@@ -152,6 +152,50 @@ class LightUpPuzzle:
         return adj_coords
 
 
+    def check_cross_shine(self, coord, bulbs):
+        """Returns True if a bulb placed at coord causes cross-shine.
+        
+        Returns False otherwise (if the bulb is safe to place at coord).
+        """
+        # Check for cross-shine in the coordinate's row (same x value)
+        matching_x_coord_bulbs = [c for c in bulbs if c.x == coord.x]
+        num_x_delimeters = 0
+
+        for bulb_coord in matching_x_coord_bulbs:
+            min_y = min(bulb_coord.y, coord.y)
+            max_y = max(bulb_coord.y, coord.y)
+
+            if max_y - min_y < 2:
+                return True
+
+            for black_coord in [c for c in self.black_squares if c.x == coord.x]:
+                if black_coord.y < max_y and black_coord.y > min_y:
+                    num_x_delimeters += 1
+
+        if num_x_delimeters < len(matching_x_coord_bulbs):
+            return True
+
+        # Check for cross-shine in the coordinate's column (same y value)
+        matching_y_coord_bulbs = [c for c in bulbs if c.y == coord.y]
+        num_y_delimeters = 0
+
+        for bulb_coord in matching_y_coord_bulbs:
+            min_x = min(bulb_coord.x, coord.x)
+            max_x = max(bulb_coord.x, coord.x)
+
+            if max_x - min_x < 2:
+                return True
+
+            for black_coord in [c for c in self.black_squares if c.y == coord.y]:
+                if black_coord.x < max_x and black_coord.x > min_x:
+                    num_y_delimeters += 1
+
+        if num_y_delimeters < len(matching_y_coord_bulbs):
+            return True
+        
+        return False
+
+
     def place_bulb(self, coord, bulbs, allow_cross_shine=True):
         """Attempts to place a bulb at coord position on the board.
 
@@ -161,50 +205,16 @@ class LightUpPuzzle:
             return False # Can't place a bulb on a black square 
         
         if not allow_cross_shine:
-            # Check for cross-shine in the coordinate's row (same x value)
-            matching_x_coord_bulbs = [c for c in bulbs if c.x == coord.x]
-            num_x_delimeters = 0
-
-            for bulb_coord in matching_x_coord_bulbs:
-                min_y = min(bulb_coord.y, coord.y)
-                max_y = max(bulb_coord.y, coord.y)
-
-                if max_y - min_y < 2:
-                    return False
-
-                for black_coord in [c for c in self.black_squares if c.x == coord.x]:
-                    if black_coord.y < max_y and black_coord.y > min_y:
-                        num_x_delimeters += 1
-
-            if num_x_delimeters < len(matching_x_coord_bulbs):
-                return False
-
-            # Check for cross-shine in the coordinate's column (same y value)
-            matching_y_coord_bulbs = [c for c in bulbs if c.y == coord.y]
-            num_y_delimeters = 0
-
-            for bulb_coord in matching_y_coord_bulbs:
-                min_x = min(bulb_coord.x, coord.x)
-                max_x = max(bulb_coord.x, coord.x)
-
-                if max_x - min_x < 2:
-                    return False
-
-                for black_coord in [c for c in self.black_squares if c.y == coord.y]:
-                    if black_coord.x < max_x and black_coord.x > min_x:
-                        num_y_delimeters += 1
-
-            if num_y_delimeters < len(matching_y_coord_bulbs):
-                return False
-
-            # Check placement of bulbs next to zero-valued black square
-            if len([c for c in self.get_adj_coords(coord) if c in self.black_squares and self.black_squares[c] == 0]) == 0:
+            # Check cross shine and placement of bulbs next to zero-valued black square
+            if not self.check_cross_shine(coord, bulbs) and len([c for c in self.get_adj_coords(coord) if c in self.black_squares and self.black_squares[c] == 0]) == 0:
                 bulbs.add(coord)
                 return True
 
         else:
             bulbs.add(coord)
             return True
+        
+        return False
 
 
     def visualize(self, bulbs=[]):
@@ -253,27 +263,12 @@ class LightUpPuzzle:
         return num_adj_black_squares 
 
 
-    def get_fitness(self, genotype):
-        """Updates the given genotype's fitness (number of lit cells / total number of white cells).
-        
-        For constraint satisfaction fitness function, the fitness is reduced by a factor (penalty_coefficient)
-        of the constraints violated seen below in (1) and (2).
+    def update_shined_squares(self, genotype):
+        """Updates the object's set of shined squares.
 
-        For the fitness repair function, an invalid genotype is repaired to make it valid.
-
-        For the original problem statement fitness function, the fitness is zero if (1) or (2) are not true.
-        
-        A solution with "good" fitness satisfies these requirements:
-        1. No bulbs shine on eachother.
-        2. Every black square has the required adjacent bulbs. (can be disabled using config file setting)
-
-        Note: the type of fitness function used is specified in config.
+        Returns the number of bulbs shining on eachother.
         """
-        # Validity infringement variables
         bulb_on_bulb_shine_count = 0
-        invalid_black_cell_constraint_count = 0
-
-        # Create and populate set of shined squares
         self.shined_squares = set([])
 
         for bulb_coord in genotype.bulbs:
@@ -298,14 +293,51 @@ class LightUpPuzzle:
         # Ensure bulbs count as shined squares
         for bulb_coord in genotype.bulbs:
             self.shined_squares.add(bulb_coord)
+        
+        return bulb_on_bulb_shine_count
 
-        # Check black square conditions
+
+    def update_black_square_conditions(self, genotype):
+        """Returns the number of invalid black square conditions and the associated
+        invalid coordinates.
+
+        Checks against the config file for whether or not to enforce black cell constraints.
+        """
+        invalid_black_cell_constraint_count = 0
+        invalid_black_coords = []
+
         if int(self.config.settings["enforce_adj_quotas"]):
             for coord, adj_value in self.black_squares.items():
                 if adj_value < int(self.config.settings["adj_value_dont_care"]) and self.get_num_bulbs(self.get_adj_coords(coord), genotype.bulbs) != adj_value:
                     invalid_black_cell_constraint_count += abs(adj_value - self.get_num_bulbs(self.get_adj_coords(coord), genotype.bulbs))
+                    invalid_black_coords.append(coord)
+        
+        return invalid_black_cell_constraint_count, invalid_black_coords
 
-        # Calculate and return the fitness
+
+    def get_fitness(self, genotype):
+        """Updates the given genotype's fitness (number of lit cells / total number of white cells).
+        
+        For constraint satisfaction fitness function, the fitness is reduced by a factor (penalty_coefficient)
+        of the constraints violated seen below in (1) and (2).
+
+        For the fitness repair function, an invalid genotype is repaired to make it valid.
+
+        For the original problem statement fitness function, the fitness is zero if (1) or (2) are not true.
+        
+        A solution with "good" fitness satisfies these requirements:
+        1. No bulbs shine on eachother.
+        2. Every black square has the required adjacent bulbs. (can be disabled using config file setting)
+
+        Note: the type of fitness function used is specified in config.
+        """
+        # Get number of shined squares
+        bulb_on_bulb_shine_count = self.update_shined_squares(genotype)
+        
+        # Get number of black cell constraints violated and the corresponding black cell coordinates 
+        invalid_black_cell_constraint_count, invalid_black_coords = self.update_black_square_conditions(genotype)
+
+        # Calculate the genotype's fitness
         genotype.fitness = len(self.shined_squares) / self.num_possible_lit_cells 
 
         if int(self.config.settings['use_constraint_sat_fitness_function']):
@@ -314,9 +346,13 @@ class LightUpPuzzle:
             genotype.fitness -= float(self.config.settings['penalty_coefficient']) * (bulb_on_bulb_shine_count + invalid_black_cell_constraint_count) / self.num_possible_lit_cells
         
         elif bulb_on_bulb_shine_count or invalid_black_cell_constraint_count:
-            if int(self.config.settings('use_repair_function')):
+            if int(self.config.settings['use_repair_function']):
                 # Repair the defective genotype
-                repair(genotype, bulb_on_bulb_shine_count, invalid_black_cell_constraint_count)
+                for _ in range(int(self.config.settings['repair_retry_count'])):
+                    self.repair(genotype, bulb_on_bulb_shine_count, invalid_black_cell_constraint_count, invalid_black_coords)
+
+                    if genotype.fitness != 0:
+                        break
 
             else:
                 # Use the original problem statement function
@@ -359,7 +395,73 @@ class LightUpPuzzle:
 
             soln_file.write('\n')
 
-    def repair(genotype, bulb_on_bulb_shine_count, invalid_black_cell_constraint_count):
-        """Repairs the given genotype to eliminate bulbs shining on eachother and invalid black
-        cell constraints."""
-        pass
+    def repair(self, genotype, bulb_on_bulb_shine_count, invalid_black_cell_constraint_count, invalid_black_coords):
+        """Attempts to repair the given genotype to eliminate bulbs shining on eachother and invalid black
+        cell constraints.
+
+        If a repair cannot be made, the fitness is set to zero.
+        """
+        if bulb_on_bulb_shine_count:
+            # Remove bulbs until the cross-shine constraint is valid
+            tmp_bulbs = copy.deepcopy(genotype.bulbs)
+            for b in tmp_bulbs:
+                if self.check_cross_shine(b, genotype.bulbs):
+                    genotype.bulbs.remove(b)
+                    bulb_on_bulb_shine_count -= 1
+
+                    if bulb_on_bulb_shine_count <= 0:
+                        break
+        
+        if invalid_black_cell_constraint_count:
+            # Add or remove bulbs around black cells (enforcing the cross-shine constraint) until black cell constraints are met
+            for black_coord in invalid_black_coords:
+                adj_coords = self.get_adj_coords(black_coord)
+                adj_bulb_coords = [c for c in adj_coords if c in genotype.bulbs]
+                bulbs_to_add = len(adj_bulb_coords) - self.black_squares[black_coord]
+
+                if bulbs_to_add > 0:
+                    # Add adjacent bulbs
+                    num_added_bulbs = 0
+
+                    for coord in adj_coords:
+                        if self.place_bulb(coord, genotype.bulbs, allow_cross_shine=False):
+                            num_added_bulbs += 1
+
+                            if num_added_bulbs == bulbs_to_add:
+                                break
+
+                    # Validate the problem is fixed                    
+                    if num_added_bulbs != bulbs_to_add:
+                        genotype.fitness = 0
+                        break
+
+                elif bulbs_to_add < 0:
+                    # Remove adjacent bulbs
+                    bulbs_to_remove = -1 * bulbs_to_add
+                    num_removed_bulbs = 0
+
+                    for coord in adj_bulb_coords:
+                        genotype.bulbs.remove(coord)
+                        num_removed_bulbs += 1
+
+                        if num_removed_bulbs == bulbs_to_remove:
+                            break
+
+                    # Validate the problem is fixed
+                    if num_removed_bulbs != bulbs_to_remove:
+                        genotype.fitness = 0
+                        break
+        
+        # Re-evaluate the fitness
+        # Get number of shined squares
+        bulb_on_bulb_shine_count = self.update_shined_squares(genotype)
+        
+        # Get number of black cell constraints violated and the corresponding black cell coordinates 
+        invalid_black_cell_constraint_count, invalid_black_coords = self.update_black_square_conditions(genotype)
+
+        # Set the genotype's fitness
+        if bulb_on_bulb_shine_count or invalid_black_cell_constraint_count:
+            genotype.fitness = 0
+
+        else:
+            genotype.fitness = len(self.shined_squares) / self.num_possible_lit_cells 
