@@ -395,6 +395,7 @@ class LightUpPuzzle:
 
             soln_file.write('\n')
 
+
     def repair(self, genotype, bulb_on_bulb_shine_count, invalid_black_cell_constraint_count, invalid_black_coords):
         """Attempts to repair the given genotype to eliminate bulbs shining on eachother and invalid black
         cell constraints.
@@ -407,7 +408,7 @@ class LightUpPuzzle:
             for b in tmp_bulbs:
                 if self.check_cross_shine(b, genotype.bulbs):
                     genotype.bulbs.remove(b)
-                    bulb_on_bulb_shine_count -= 1
+                    bulb_on_bulb_shine_count -= 2
 
                     if bulb_on_bulb_shine_count <= 0:
                         break
@@ -417,7 +418,7 @@ class LightUpPuzzle:
             for black_coord in invalid_black_coords:
                 adj_coords = self.get_adj_coords(black_coord)
                 adj_bulb_coords = [c for c in adj_coords if c in genotype.bulbs]
-                bulbs_to_add = len(adj_bulb_coords) - self.black_squares[black_coord]
+                bulbs_to_add = self.black_squares[black_coord] - len(adj_bulb_coords) 
 
                 if bulbs_to_add > 0:
                     # Add adjacent bulbs
@@ -430,7 +431,7 @@ class LightUpPuzzle:
                             if num_added_bulbs == bulbs_to_add:
                                 break
 
-                    # Validate the problem is fixed                    
+                    # Validate the problem is fixed
                     if num_added_bulbs != bulbs_to_add:
                         genotype.fitness = 0
                         break
