@@ -258,7 +258,7 @@ class LightUpPuzzle:
         given bulbs (a set of bulb coordinates).
         
         For constraint satisfaction fitness function, the fitness is reduced by a factor (penalty_coefficient)
-        if any of (1) or (2) below are not true.
+        of the constraints violated seen below in (1) and (2).
 
         For the original problem statement fitness function, the fitness is zero if (1) or (2) are not true.
         
@@ -266,7 +266,7 @@ class LightUpPuzzle:
         1. No bulbs shine on eachother.
         2. Every black square has the required adjacent bulbs. (can be disabled using config file setting)
 
-        Note: the type of fitness function used can be specified in config.
+        Note: the type of fitness function used is specified in config.
         """
         # Validity infringement variables
         bulb_on_bulb_shine_count = 0
