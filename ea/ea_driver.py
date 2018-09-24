@@ -275,11 +275,12 @@ class EADriver:
         """Integrates children from self.children into self.population while keeping mu (population
         size) constant.
 
-        Depending on the survival selection configuration, one of the three following methods
+        Depending on the survival selection configuration, one of the four following methods
         is used to select survivors:
             1. Uniform random selection
             2. Truncation
-            3. k-tournament selection without replacement
+            3. Fitness proportional selection
+            4. k-tournament selection without replacement
         """
         combined_generations = self.population + self.children
         self.population = []
