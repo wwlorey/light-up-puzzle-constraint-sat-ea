@@ -158,7 +158,7 @@ class EADriver:
 
         elif int(self.config.settings['use_fitness_proportional_parent_selection']):
             # Select parents for breeding using the fitness proportional "roulette wheel" method (with replacement)
-            self.parents = random.choices(self.population, weights=[float(self.config.settings['fitness_proportional_offset']) + (abs(g.fitness) / float(self.config.settings['fitness_proportional_div'])) for g in self.population], k=parent_population_size)
+            self.parents = random.choices(self.population, weights=[float(self.config.settings['fitness_proportional_parent_offset']) + (abs(g.fitness) / float(self.config.settings['fitness_proportional_parent_div'])) for g in self.population], k=parent_population_size)
 
         else:
             # Perform a k-tournament selection with replacement
@@ -285,7 +285,7 @@ class EADriver:
         self.population = []
 
         if int(self.config.settings['use_uniform_random_survival_selection']):
-            # Select parents using a uniform random approach
+            # Select offspring for survival using a uniform random approach
             tmp_combined_generations = combined_generations
             random.shuffle(tmp_combined_generations)
 
@@ -295,6 +295,10 @@ class EADriver:
             # Use truncation for survival selection
             self.sort_genotypes(combined_generations)
             self.population = combined_generations[:self.population_size]
+
+        elif int(self.config.settings['use_fitness_proportional_survival_selection']):
+            # Select offspring for survival using the fitness proportional "roulette wheel" method (with replacement)
+            self.population = random.choices(combined_generations, weights=[float(self.config.settings['fitness_proportional_survival_offset']) + (abs(g.fitness) / float(self.config.settings['fitness_proportional_survival_div'])) for g in combined_generations], k=self.population_size)
         
         else:
             # Use k-tournament for survival selection without replacement
