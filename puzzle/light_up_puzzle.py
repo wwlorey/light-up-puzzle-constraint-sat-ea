@@ -253,12 +253,13 @@ class LightUpPuzzle:
         return num_adj_black_squares 
 
 
-    def get_fitness(self, bulbs):
-        """Returns the puzzle's fitness (number of lit cells / total number of white cells)
-        given bulbs (a set of bulb coordinates).
+    def get_fitness(self, genotype):
+        """Updates the given genotype's fitness (number of lit cells / total number of white cells).
         
         For constraint satisfaction fitness function, the fitness is reduced by a factor (penalty_coefficient)
         of the constraints violated seen below in (1) and (2).
+
+        For the fitness repair function, an invalid genotype is repaired to make it valid.
 
         For the original problem statement fitness function, the fitness is zero if (1) or (2) are not true.
         
@@ -275,7 +276,7 @@ class LightUpPuzzle:
         # Create and populate set of shined squares
         self.shined_squares = set([])
 
-        for bulb_coord in bulbs:
+        for bulb_coord in genotype.bulbs:
             # Create a list of adjacency lists - used for determining where the bulb shines
             adj_coord_lists = []
 
@@ -288,35 +289,39 @@ class LightUpPuzzle:
                 for coord in coord_list:
                     if coord in self.black_squares:
                         break # Shine cannot propagate any further
-                    elif coord in bulbs:
+                    elif coord in genotype.bulbs:
                         # Redundant check for bulb on bulb shining
                         bulb_on_bulb_shine_count += 1
                     else:
                         self.shined_squares.add(coord)
 
         # Ensure bulbs count as shined squares
-        for bulb_coord in bulbs:
+        for bulb_coord in genotype.bulbs:
             self.shined_squares.add(bulb_coord)
 
         # Check black square conditions
         if int(self.config.settings["enforce_adj_quotas"]):
             for coord, adj_value in self.black_squares.items():
-                if adj_value < int(self.config.settings["adj_value_dont_care"]) and self.get_num_bulbs(self.get_adj_coords(coord), bulbs) != adj_value:
-                    invalid_black_cell_constraint_count += abs(adj_value - self.get_num_bulbs(self.get_adj_coords(coord), bulbs))
+                if adj_value < int(self.config.settings["adj_value_dont_care"]) and self.get_num_bulbs(self.get_adj_coords(coord), genotype.bulbs) != adj_value:
+                    invalid_black_cell_constraint_count += abs(adj_value - self.get_num_bulbs(self.get_adj_coords(coord), genotype.bulbs))
 
         # Calculate and return the fitness
-        fitness = len(self.shined_squares) / self.num_possible_lit_cells 
+        genotype.fitness = len(self.shined_squares) / self.num_possible_lit_cells 
 
         if int(self.config.settings['use_constraint_sat_fitness_function']):
             # Use the constraint satisfaction fitness function
             # Penalize the fitness for any validation infringements
-            fitness -= float(self.config.settings['penalty_coefficient']) * (bulb_on_bulb_shine_count + invalid_black_cell_constraint_count) / self.num_possible_lit_cells
-
+            genotype.fitness -= float(self.config.settings['penalty_coefficient']) * (bulb_on_bulb_shine_count + invalid_black_cell_constraint_count) / self.num_possible_lit_cells
+        
         elif bulb_on_bulb_shine_count or invalid_black_cell_constraint_count:
-            # The original problem statement fitness function is being used and some constraints are invalid
-            fitness = 0
-            
-        return fitness
+            if int(self.config.settings('use_repair_function')):
+                # Repair the defective genotype
+                repair(genotype, bulb_on_bulb_shine_count, invalid_black_cell_constraint_count)
+
+            else:
+                # Use the original problem statement function
+                # Set the fitness to zero because some constraints are invalid
+                genotype.fitness = 0
 
 
     def place_bulb_randomly(self, bulbs):
@@ -353,3 +358,8 @@ class LightUpPuzzle:
                 soln_file.write(str(coord.y) + ' ' + str(coord.x) + '\n')
 
             soln_file.write('\n')
+
+    def repair(genotype, bulb_on_bulb_shine_count, invalid_black_cell_constraint_count):
+        """Repairs the given genotype to eliminate bulbs shining on eachother and invalid black
+        cell constraints."""
+        pass

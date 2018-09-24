@@ -105,7 +105,7 @@ class EADriver:
         If log_run is True, the state of the experiment is written to the log file.
         """ 
         for genotype in genotypes:
-            genotype.fitness = self.phenotype.get_fitness(genotype.bulbs)
+            self.phenotype.get_fitness(genotype)
 
             # Calculate average fitness
             self.total_fitness_sum += genotype.fitness
