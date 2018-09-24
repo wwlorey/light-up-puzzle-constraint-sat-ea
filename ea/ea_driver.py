@@ -138,27 +138,36 @@ class EADriver:
     def select_parents(self):
         """Chooses which parents from the population will breed.
 
-        Depending on the parent selection configuration, one of the two following methods
+        Depending on the parent selection configuration, one of the three following methods
         is used to select parents:
-            1. Fitness proportional selection
-            2. k-tournament selection with replacement
+            1. Uniform random selection
+            2. Fitness proportional selection
+            3. k-tournament selection with replacement
 
         The resulting parents are stored in self.parents.
         """
         self.parents = []
+        parent_population_size = int(self.config.settings['parent_population_size'])
 
-        if int(self.config.settings['use_fitness_proportional_selection']):
+        if int(self.config.settings['use_uniform_random_parent_selection']):
+            # Select parents using a uniform random approach
+            tmp_population = self.population
+            random.shuffle(tmp_population)
+
+            self.parents = tmp_population[:parent_population_size]
+
+        elif int(self.config.settings['use_fitness_proportional_parent_selection']):
             # Select parents for breeding using the fitness proportional "roulette wheel" method (with replacement)
-            self.parents = random.choices(self.population, weights=[float(self.config.settings['fitness_proportional_offset']) + (abs(g.fitness) / float(self.config.settings['fitness_proportional_div'])) for g in self.population], k=int(self.config.settings['parent_population_size']))
+            self.parents = random.choices(self.population, weights=[float(self.config.settings['fitness_proportional_offset']) + (abs(g.fitness) / float(self.config.settings['fitness_proportional_div'])) for g in self.population], k=parent_population_size)
 
         else:
             # Perform a k-tournament selection with replacement
-            while len(self.parents) <= int(self.config.settings['parent_population_size']):
+            while len(self.parents) <= parent_population_size:
                 self.parents.append(self.perform_tournament_selection(self.population, int(self.config.settings['k_parent_selection']), w_replacement=True))
             
             # Maintain the parent population size
             # This accounts for situations where the parent population size is not divisible by k
-            self.parents = self.parents[:int(self.config.settings['parent_population_size'])]
+            self.parents = self.parents[:parent_population_size]
 
 
     def recombine(self):
@@ -266,15 +275,23 @@ class EADriver:
         """Integrates children from self.children into self.population while keeping mu (population
         size) constant.
 
-        Depending on the survival selection configuration, one of the two following methods
+        Depending on the survival selection configuration, one of the three following methods
         is used to select survivors:
-            1. Truncation
-            2. k-tournament selection without replacement
+            1. Uniform random selection
+            2. Truncation
+            3. k-tournament selection without replacement
         """
         combined_generations = self.population + self.children
         self.population = []
 
-        if int(self.config.settings['use_truncation']):
+        if int(self.config.settings['use_uniform_random_survival_selection']):
+            # Select parents using a uniform random approach
+            tmp_combined_generations = combined_generations
+            random.shuffle(tmp_combined_generations)
+
+            self.population = tmp_combined_generations[:self.population_size]
+
+        elif int(self.config.settings['use_truncation']):
             # Use truncation for survival selection
             self.sort_genotypes(combined_generations)
             self.population = combined_generations[:self.population_size]
