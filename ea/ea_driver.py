@@ -272,8 +272,14 @@ class EADriver:
 
 
     def select_for_survival(self):
-        """Integrates children from self.children into self.population while keeping mu (population
-        size) constant.
+        """For comma survival strategy:
+            Kills the previous self.population and selects for survival from the self.children population while keeping
+            mu (population size) constant.
+        
+        For plus survival strategy:
+            Integrates children from self.children into self.population while keeping mu constant.
+        
+        Note: The survival strategy can be configured in config.        
 
         Depending on the survival selection configuration, one of the four following methods
         is used to select survivors:
@@ -282,29 +288,35 @@ class EADriver:
             3. Fitness proportional selection
             4. k-tournament selection without replacement
         """
-        combined_generations = self.population + self.children
+        if int(self.config.settings['use_comma_survival_strategy']):
+            # Use the comma survival strategy
+            selection_pool = self.children
+        else:
+            # Default to using the plus survival strategy
+            selection_pool = self.population + self.children
+            
         self.population = []
 
         if int(self.config.settings['use_uniform_random_survival_selection']):
             # Select offspring for survival using a uniform random approach
-            tmp_combined_generations = combined_generations
-            random.shuffle(tmp_combined_generations)
+            tmp_selection_pool = selection_pool
+            random.shuffle(tmp_selection_pool)
 
-            self.population = tmp_combined_generations[:self.population_size]
+            self.population = tmp_selection_pool[:self.population_size]
 
         elif int(self.config.settings['use_truncation']):
             # Use truncation for survival selection
-            self.sort_genotypes(combined_generations)
-            self.population = combined_generations[:self.population_size]
+            self.sort_genotypes(selection_pool)
+            self.population = selection_pool[:self.population_size]
 
         elif int(self.config.settings['use_fitness_proportional_survival_selection']):
             # Select offspring for survival using the fitness proportional "roulette wheel" method (with replacement)
-            self.population = random.choices(combined_generations, weights=[float(self.config.settings['fitness_proportional_survival_offset']) + (abs(g.fitness) / float(self.config.settings['fitness_proportional_survival_div'])) for g in combined_generations], k=self.population_size)
+            self.population = random.choices(selection_pool, weights=[float(self.config.settings['fitness_proportional_survival_offset']) + (abs(g.fitness) / float(self.config.settings['fitness_proportional_survival_div'])) for g in selection_pool], k=self.population_size)
         
         else:
             # Use k-tournament for survival selection without replacement
             while len(self.population) <= self.population_size:
-                self.population.append(self.perform_tournament_selection(combined_generations, int(self.config.settings['k_survival_selection']), w_replacement=False))
+                self.population.append(self.perform_tournament_selection(selection_pool, int(self.config.settings['k_survival_selection']), w_replacement=False))
 
             # Maintain the population size
             # This accounts for situations where the population size is not divisible by k
