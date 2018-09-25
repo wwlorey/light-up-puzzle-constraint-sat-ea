@@ -217,7 +217,7 @@ class LightUpPuzzle:
         return False
 
 
-    def visualize(self, bulbs=[]):
+    def visualize(self, bulbs=[], print_vis=True):
         """Prints a string representation of the board.
 
         '_' Empty white square
@@ -232,13 +232,21 @@ class LightUpPuzzle:
         for coord in bulbs:
             board[coord.x][coord.y] = '!'
 
+        vis_str = ''
+
         for row in board:
             for item in row:
-                print(item + ' ', end='')
+                vis_str += item + ' '
 
-            print()
+            vis_str += '\n'
 
-        print()
+        vis_str += '\n'
+
+        if print_vis:
+            print(vis_str)
+
+        else:
+            return vis_str
 
 
     def get_num_bulbs(self, coord_list, bulbs):
@@ -394,6 +402,14 @@ class LightUpPuzzle:
                 soln_file.write(str(coord.y) + ' ' + str(coord.x) + '\n')
 
             soln_file.write('\n')
+
+    
+    def write_to_soln_visualization_file(self, bulbs):
+        """Writes solution visualization to file with root name specified in the configuration file."""
+        soln_vis_path = self.config.settings["soln_file_path"][:self.config.settings["soln_file_path"].find('.')] + '_visualization.txt'
+
+        with open(soln_vis_path, 'w') as soln_vis_file:
+            soln_vis_file.write(self.visualize(bulbs, print_vis=False))
 
 
     def repair(self, genotype, bulb_on_bulb_shine_count, invalid_black_cell_constraint_count, invalid_black_coords):

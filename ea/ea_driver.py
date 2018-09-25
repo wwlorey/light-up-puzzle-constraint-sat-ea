@@ -70,6 +70,8 @@ class EADriver:
                 while failure_count < int(self.config.settings['num_bulb_placement_failures']):
                     if not self.phenotype.place_bulb_randomly(self.population[genotype_index].bulbs):
                         failure_count += 1
+                    else:
+                        break
 
 
         self.eval_count = 0
@@ -121,6 +123,11 @@ class EADriver:
 
                     # Write to solution file
                     self.phenotype.write_to_soln_file(self.best_fit_global_genotype.bulbs)
+
+                    # Visualize the solution
+                    if int(self.config.settings['visualize_best_solution']):
+                        self.phenotype.write_to_soln_visualization_file(self.best_fit_global_genotype.bulbs)
+
             
             # Determine if the population fitness is stagnating
             if math.isclose(self.avg_fitness, self.prev_avg_fitness, rel_tol=float(self.config.settings['termination_convergence_criterion_magnitude'])):
