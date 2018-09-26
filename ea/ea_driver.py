@@ -24,6 +24,7 @@ class EADriver:
         
         self.run_count = 1
         self.best_fit_global_genotype = genotype_class.Genotype()
+        self.best_fit_global_genotype.fitness =  -1 * int(self.config.settings['arbitrary_large_number'])
 
         self.init_run_variables()
 
@@ -78,9 +79,12 @@ class EADriver:
         self.avg_fitness = 0.0
         self.total_fitnesses_seen = 0
         self.total_fitness_sum = 0
-        self.stale_fitness_count = 0
-        self.prev_avg_fitness = 0.0
+        self.stale_fitness_count_termination = 0
+        self.stale_fitness_count_mutation = 0
+        self.prev_avg_fitness_termination = 0.0
+        self.prev_avg_fitness_mutation = 0.0
         self.best_fit_local_genotype = genotype_class.Genotype()
+        self.best_fit_local_genotype.fitness = -1 * int(self.config.settings['arbitrary_large_number'])
 
         # Create/reset the base puzzle class (phenotype)
         self.phenotype = puzzle_class.LightUpPuzzle(self.config)
@@ -130,11 +134,17 @@ class EADriver:
 
             
             # Determine if the population fitness is stagnating
-            if math.isclose(self.avg_fitness, self.prev_avg_fitness, rel_tol=float(self.config.settings['termination_convergence_criterion_magnitude'])):
-                self.stale_fitness_count += 1
+            if math.isclose(self.avg_fitness, self.prev_avg_fitness_termination, rel_tol=float(self.config.settings['termination_convergence_criterion_magnitude'])):
+                self.stale_fitness_count_termination += 1
             else:
-                self.stale_fitness_count = 0
-                self.prev_avg_fitness = self.avg_fitness
+                self.stale_fitness_count_termination = 0
+                self.prev_avg_fitness_termination = self.avg_fitness
+            
+            if math.isclose(self.avg_fitness, self.prev_avg_fitness_mutation, rel_tol=float(self.config.settings['mutation_factor_criterion_magnitude'])):
+                self.stale_fitness_count_mutation += 1
+            else:
+                self.stale_fitness_count_mutation = 0
+                self.prev_avg_fitness_mutation = self.avg_fitness
             
             self.eval_count += 1
 
@@ -253,16 +263,13 @@ class EADriver:
 
             If this cannot be done in a valid way, the child's bulb is removed.
             """
-            if len(child.bulbs):
-                rand_bulb_index = random.randint(0, len(child.bulbs) - 1)
-            else:
-                rand_bulb_index = 0
-
-            try:
-                child.pop(rand_bulb_index)
-            except:
-                # No bulbs available to remove
-                pass
+            if random.random() < mutation_probability:
+                for _ in range(int(self.config.settings['num_bulb_removals_mutation'])):
+                    try:
+                        child.bulbs.pop()
+                    except:
+                        # The bulbs set is empty
+                        break
             
             fail_count = 0
             while fail_count < int(self.config.settings['num_bulb_placement_failures_mutation']):
@@ -270,10 +277,17 @@ class EADriver:
                     break
                 else:
                     fail_count += 1
-            
+
+
+        mutation_probability = float(self.config.settings['mutation_probability'])
+
+        # Determine if the stagnant population fitness requires more mutation
+        if self.stale_fitness_count_mutation >= int(self.config.settings['mutation_factor_criterion']):
+            # There has been no change in average fitness for too long
+            mutation_probability *= float(self.config.settings['mutation_scale_factor'])
 
         for child in self.children:
-            if random.random() < float(self.config.settings['mutation_probability']):
+            if random.random() < mutation_probability:
                 for i in range(random.randint(1, int(self.config.settings['rand_num_bulb_shuffles']))):
                     shuffle_bulb(child)
 
@@ -337,7 +351,7 @@ class EADriver:
             1. There has been no change in fitness (average fitness) for n evaluations.
             2. The number of evaluations specified in config has been reached.
         """
-        if self.stale_fitness_count >= int(self.config.settings['n_termination_convergence_criterion']):
+        if self.stale_fitness_count_termination >= int(self.config.settings['n_termination_convergence_criterion']):
             # There has been no change in average fitness for too long
             return True
 
