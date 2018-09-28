@@ -51,7 +51,7 @@ for q in range(len(log_file_paths)):
         ax.step(evals, avg_fits, '-r')
         ax.step(evals, best_fits, '-b')
 
-        plt.ylim(-2.5, 1)
+        plt.ylim(-1, 1)
 
         red_patch = mpatches.Patch(color='red', label='Average Local Fitness')
         blue_patch = mpatches.Patch(color='blue', label='Local Best Fitness')
@@ -59,7 +59,7 @@ for q in range(len(log_file_paths)):
 
         # Include necessary labels
         plt.xlabel('Evaluations')
-        plt.ylabel('Fitness\n(ratio of lit white cells to total number of white cells)')
+        plt.ylabel('Fitness (ratio of lit white cells to total number of white cells)')
 
 
         # Save and close the plot
