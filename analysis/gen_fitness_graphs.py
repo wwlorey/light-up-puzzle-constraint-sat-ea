@@ -51,7 +51,12 @@ for q in range(len(log_file_paths)):
         ax.step(evals, avg_fits, '-r')
         ax.step(evals, best_fits, '-b')
 
-        plt.ylim(-1, 1)
+        if 'bonus' in log_file_paths[q]:
+            # These plots only include fitness values between 0 and 1 inclusive
+            plt.ylim(0, 1)
+        else:
+            # These plots include both negative and positive fitness values
+            plt.ylim(-1, 1)
 
         red_patch = mpatches.Patch(color='red', label='Average Local Fitness')
         blue_patch = mpatches.Patch(color='blue', label='Local Best Fitness')
