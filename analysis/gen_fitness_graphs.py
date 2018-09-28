@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 
-log_file_paths = ['../output/random_gen_log.txt', '../output/website_puzzle_log.txt', '../output/website_puzzle_log_BONUS.txt', '../output/random_gen_log_BONUS.txt']
+log_file_paths = ['random_gen_log.txt', 'website_puzzle_log.txt', 'website_puzzle_bonus_log.txt', 'random_gen_bonus_log.txt']
+log_file_paths = ['../output/' + filename[:filename.find('log') - 1] + '/' + filename for filename in log_file_paths]
+
 
 for q in range(len(log_file_paths)):
     with open(log_file_paths[q], 'r') as log_file:
@@ -49,7 +51,7 @@ for q in range(len(log_file_paths)):
         ax.step(evals, avg_fits, '-r')
         ax.step(evals, best_fits, '-b')
 
-        plt.ylim(0, 1)
+        plt.ylim(-2.5, 1)
 
         red_patch = mpatches.Patch(color='red', label='Average Local Fitness')
         blue_patch = mpatches.Patch(color='blue', label='Local Best Fitness')
