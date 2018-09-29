@@ -4,8 +4,14 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 
-log_file_paths = ['random_gen_log.txt', 'website_puzzle_log.txt', 'website_puzzle_bonus_log.txt', 'random_gen_bonus_log.txt']
-log_file_paths = ['../output/' + filename[:filename.find('log') - 1] + '/' + filename for filename in log_file_paths]
+log_file_paths = [
+                    'random_gen/random_gen_validity_enforced_log.txt', 
+                    'website_puzzle/website_puzzle_validity_enforced_log.txt', 
+                    'website_puzzle_bonus/website_puzzle_validity_enforced_bonus_log.txt',
+                    'random_gen_bonus/random_gen_validity_enforced_bonus_log.txt'
+                 ]
+
+log_file_paths = ['../output/' + filename for filename in log_file_paths]
 
 
 for q in range(len(log_file_paths)):
@@ -68,6 +74,6 @@ for q in range(len(log_file_paths)):
 
 
         # Save and close the plot
-        plt.savefig(log_file_paths[q][:log_file_paths[q].find('.txt')] + '_graph.png')
+        plt.savefig(log_file_paths[q][:log_file_paths[q].find('log')] + 'graph.png')
         plt.close()
             
