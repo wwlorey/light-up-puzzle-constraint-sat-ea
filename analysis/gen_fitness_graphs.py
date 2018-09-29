@@ -35,6 +35,7 @@ for q in range(len(log_file_paths)):
         curr_run = 1
 
         # Scrape data from the log file
+        max_num_evals = 0
         for line in log_file:
             if not line[0] == 'R':
                 # This line has eval and fitness data
@@ -50,6 +51,13 @@ for q in range(len(log_file_paths)):
                     eval_dict[eval_num][2] += 1
                 else:
                     eval_dict[eval_num] = [avg_fit, best_fit, 1]
+                
+                max_num_evals = max(eval_dict[eval_num][2], max_num_evals)
+
+        # Adjust the counts up to the largest count
+        for eval_num in eval_dict:
+            eval_dict[eval_num][2] = max_num_evals
+
 
         evals = []
         avg_fits = []
