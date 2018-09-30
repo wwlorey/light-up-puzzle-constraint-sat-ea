@@ -1,4 +1,10 @@
 #################################
+#   Deliverables Note   #
+#################################
+
+Configuration file deliverables can be found in `config/deliverables`. The output of those config files is in the `output` directory in a sub-directory named in correspondence with the config file.
+
+#################################
 #   Execution Instructions   #
 #################################
 
@@ -8,7 +14,7 @@ To compile and run the code, simply run the following script. This defaults to u
 
 Or, include the optional configuration file parameter.
 
-	./run.sh config/website_puzzle.cfg
+	./run.sh config/deliverables/website_puzzle_validity_enforced.cfg
 
 #################################
 #	Coding Standards	#

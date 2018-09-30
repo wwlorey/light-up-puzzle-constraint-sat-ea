@@ -10,7 +10,7 @@ num_fitness_evaluations: 10000
 n_termination_convergence_criterion: 500
 termination_convergence_criterion_magnitude: 1e-4
 use_comma_survival_strategy: 0
-use_constraint_sat_fitness_function: 0
+use_penalty_function: 0
 penalty_coefficient: 3
 use_repair_function: 0
 repair_retry_count: 1

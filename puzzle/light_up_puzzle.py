@@ -348,7 +348,7 @@ class LightUpPuzzle:
         # Calculate the genotype's fitness
         genotype.fitness = len(self.shined_squares) / self.num_possible_lit_cells 
 
-        if int(self.config.settings['use_constraint_sat_fitness_function']):
+        if int(self.config.settings['use_penalty_function']):
             # Use the constraint satisfaction fitness function
             # Penalize the fitness for any validation infringements
             genotype.fitness -= float(self.config.settings['penalty_coefficient']) * (bulb_on_bulb_shine_count + invalid_black_cell_constraint_count) / self.num_possible_lit_cells
