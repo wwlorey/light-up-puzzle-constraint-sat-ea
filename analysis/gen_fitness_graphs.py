@@ -16,7 +16,9 @@ log_file_paths = [
                     'website_puzzle_bonus/website_puzzle_uniform_random_bonus',
                     'website_puzzle_bonus/website_puzzle_validity_enforced_bonus',
                     'website_puzzle_vanilla/website_puzzle_uniform_random_vanilla',
-                    'website_puzzle_vanilla/website_puzzle_validity_enforced_vanilla'
+                    'website_puzzle_vanilla/website_puzzle_validity_enforced_vanilla',
+                    'website_puzzle/website_puzzle_validity_enforced_small_penalty',
+                    'website_puzzle/website_puzzle_validity_enforced_large_penalty'
                  ]
 
 log_file_paths = ['../output/' + filename + '_log.txt' for filename in log_file_paths]
@@ -73,11 +75,14 @@ for q in range(len(log_file_paths)):
         ax.step(evals, avg_fits, '-r')
         ax.step(evals, best_fits, '-b')
 
-        if 'bonus' in log_file_paths[q]:
-            # These plots only include fitness values between 0 and 1 inclusive
+        if 'bonus' in log_file_paths[q] or 'small' in log_file_paths[q]:
+            # These plots only include fitness values between 0 and 1
             plt.ylim(0, 1)
-        else:
+        elif 'large' in log_file_paths[q]:
             # These plots include both negative and positive fitness values
+            plt.ylim(-2.5, 1)
+        else:
+            # These plots include both (smaLl) negative and positive fitness values
             plt.ylim(-1, 1)
 
         red_patch = mpatches.Patch(color='red', label='Average Local Fitness')
