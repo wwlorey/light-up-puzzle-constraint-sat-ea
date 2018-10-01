@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
-log_file_paths = ['../output/random_gen_log.txt', '../output/website_puzzle_log.txt', '../output/website_puzzle_log_random_search.txt', '../output/random_gen_log_random_search.txt', '../output/website_puzzle_log_BONUS.txt', '../output/random_gen_log_BONUS.txt']
+import analysis_config as config
+import scipy.stats as stats
 
-for i in range(len(log_file_paths)):
-    with open(log_file_paths[i], 'r') as log_file:
+for i in range(len(config.log_file_paths)):
+    with open(config.log_file_paths[i], 'r') as log_file:
         # Create a list of lines from the log file, disregarding all config parmeters and empty lines
         log_text = log_file.read().split('\n')
         log_text = [line for line in log_text[log_text.index('Run 1'):] if not line == '']
@@ -30,6 +31,6 @@ for i in range(len(log_file_paths)):
         last_best_fits.append(all_best_fits[-1])
         
     # Write the last (local) best fitnesses to a file
-    with open(log_file_paths[i][:log_file_paths[i].find('.txt')] + '_last_best_local_fits.txt', 'w') as out:
+    with open(config.log_file_paths[i][:config.log_file_paths[i].find('log')] + 'last_best_local_fits.txt', 'w') as out:
         for fit in last_best_fits:
             out.write(fit + '\n')

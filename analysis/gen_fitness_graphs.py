@@ -1,31 +1,13 @@
 #!/usr/bin/env python3
 
+import analysis_config as config
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 
-log_file_paths = [
-                    'random_gen/random_gen_uniform_random',
-                    'random_gen/random_gen_validity_enforced', 
-                    'random_gen_bonus/random_gen_uniform_random_bonus',
-                    'random_gen_bonus/random_gen_validity_enforced_bonus',
-                    'random_gen_vanilla/random_gen_uniform_random_vanilla',
-                    'random_gen_vanilla/random_gen_validity_enforced_vanilla',
-                    'website_puzzle/website_puzzle_uniform_random', 
-                    'website_puzzle/website_puzzle_validity_enforced', 
-                    'website_puzzle_bonus/website_puzzle_uniform_random_bonus',
-                    'website_puzzle_bonus/website_puzzle_validity_enforced_bonus',
-                    'website_puzzle_vanilla/website_puzzle_uniform_random_vanilla',
-                    'website_puzzle_vanilla/website_puzzle_validity_enforced_vanilla',
-                    'website_puzzle/website_puzzle_validity_enforced_small_penalty',
-                    'website_puzzle/website_puzzle_validity_enforced_large_penalty'
-                 ]
 
-log_file_paths = ['../output/' + filename + '_log.txt' for filename in log_file_paths]
-
-
-for q in range(len(log_file_paths)):
-    with open(log_file_paths[q], 'r') as log_file:
+for q in range(len(config.log_file_paths)):
+    with open(config.log_file_paths[q], 'r') as log_file:
         # Create a list of lines from the log file, disregarding all config parmeters and empty lines
         log_file = log_file.read().split('\n')
         log_file = [line for line in log_file[log_file.index('Run 1'):] if not line == '']
@@ -75,10 +57,10 @@ for q in range(len(log_file_paths)):
         ax.step(evals, avg_fits, '-r')
         ax.step(evals, best_fits, '-b')
 
-        if 'bonus' in log_file_paths[q] or 'small' in log_file_paths[q]:
+        if 'bonus' in config.log_file_paths[q] or 'small' in config.log_file_paths[q]:
             # These plots only include fitness values between 0 and 1
             plt.ylim(0, 1)
-        elif 'large' in log_file_paths[q]:
+        elif 'large' in config.log_file_paths[q]:
             # These plots include both negative and positive fitness values
             plt.ylim(-2.5, 1)
         else:
@@ -95,6 +77,6 @@ for q in range(len(log_file_paths)):
 
 
         # Save and close the plot
-        plt.savefig(log_file_paths[q][:log_file_paths[q].find('log')] + 'graph.png')
+        plt.savefig(config.log_file_paths[q][:config.log_file_paths[q].find('log')] + 'graph.png')
         plt.close()
             
