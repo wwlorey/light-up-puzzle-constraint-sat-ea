@@ -12,12 +12,12 @@ general_tests_cases = \
         (
             '../output/random_gen/random_gen_validity_enforced_last_best_local_fits.txt',
             '../output/random_gen_bonus/random_gen_validity_enforced_bonus_last_best_local_fits.txt',
-            '../output/random_gen_vanilla/random_gen_validity_enforced_vanilla_last_best_local_fits.txt'
+            # '../output/random_gen_vanilla/random_gen_validity_enforced_vanilla_last_best_local_fits.txt'
         ),
         (
             '../output/website_puzzle/website_puzzle_validity_enforced_last_best_local_fits.txt',
             '../output/website_puzzle_bonus/website_puzzle_validity_enforced_bonus_last_best_local_fits.txt',
-            '../output/website_puzzle_vanilla/website_puzzle_validity_enforced_vanilla_last_best_local_fits.txt'
+            # '../output/website_puzzle_vanilla/website_puzzle_validity_enforced_vanilla_last_best_local_fits.txt'
         )
     ]
 
@@ -174,18 +174,17 @@ for test_case in general_tests_cases:
         output_name = output_name[output_name.replace('/', '', 2).find('/') + 3:output_name.replace('.', '', 2).find('.') + 1]
         test_data.append(([float(d) for d in open(file, 'r').read().split('\n') if d], output_name))
 
-    for coord_pair in triplet_coord_pairs:
-        a_data = test_data[coord_pair[0]][0]
-        b_data = test_data[coord_pair[1]][0]
+    a_data = test_data[0][0]
+    b_data = test_data[1][0]
 
-        a_name = test_data[coord_pair[0]][1]
-        b_name = test_data[coord_pair[1]][1]
+    a_name = test_data[0][1]
+    b_name = test_data[1][1]
 
-        assumption = f_test(a_data, b_data)
-        result = t_test(a_data, b_data, assumption)
-        if result == a_data:
-            print(a_name + ' is better than ' + b_name)
-        elif result == b_data:
-            print(b_name + ' is better than ' + a_name)
-        else:
-            print('Nether ' + b_name + ' nor ' + a_name + ' is better')
+    assumption = f_test(a_data, b_data)
+    result = t_test(a_data, b_data, assumption)
+    if result == a_data:
+        print(a_name + ' is better than ' + b_name)
+    elif result == b_data:
+        print(b_name + ' is better than ' + a_name)
+    else:
+        print('Nether ' + b_name + ' nor ' + a_name + ' is better')
