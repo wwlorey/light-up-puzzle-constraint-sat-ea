@@ -16,4 +16,3 @@ log_file_paths = [
                  ]
 
 log_file_paths = ['../output/' + filename + '_log.txt' for filename in log_file_paths]
-

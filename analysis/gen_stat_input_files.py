@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import analysis_config as config
-import scipy.stats as stats
 
 for i in range(len(config.log_file_paths)):
     with open(config.log_file_paths[i], 'r') as log_file:
