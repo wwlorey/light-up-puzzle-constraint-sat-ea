@@ -1,2 +1,7 @@
 .vscode
 __pycache__
+*.aux
+*.bbl
+*.blg
+*.log
+*.toc

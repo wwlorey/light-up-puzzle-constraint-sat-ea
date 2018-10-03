@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+\usepackage[left=3cm, right=3cm, top=2cm]{geometry}
+\usepackage{graphicx}
+
+% Prevent heading numbers
+\setcounter{secnumdepth}{0}
+
+% Function definitions
+\newcommand{\fitnessplotcaption}[1]{\caption{Evaluations versus Average Local Fitness and Evaluations versus 
+    Local Best Fitness for the \textbf{{#1}}, Averaged Over All Runs}}
+
+\newcommand{\addgraphic}[1]{\centerline{\includegraphics[scale=0.6]{figures/{#1}.png}}}
+
+\title{CS5401 FS2018 Assignment 1c with bonus}
+\author{William  Lorey \\ wwlytc@mst.edu}
+\date{ }
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+Assignment 1c involved implementing an EA leveraging constraint satisfaction to
+more effectively solve Light Up puzzles. This report compares the performance of
+penalty function and repair function constraint satisfaction techniques and how they compare to
+a plain-vanilla EA. It also outlines a comparison between Validity Forced plus 
+Uniform Random versus plain Uniform Random initialization for a plain-vanilla EA,
+a constraint satisfaction EA employing a penalty function, and a constraint satisfaction
+EA employing a repair function. The extent to which EA performance is affected by 
+the penalty coefficient used in a penalty function constraint satisfaction EA will also be examined.
+
+\section{General EA Comparisons}
+
+\begin{figure}
+    \addgraphic{website_puzzle_validity_enforced_graph}
+    \fitnessplotcaption{Penalty Function EA with the Validity Enforced, Provided Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_validity_enforced_bonus_graph}
+    \fitnessplotcaption{Repair Function EA with the Validity Enforced, Provided Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_validity_enforced_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Provided Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_validity_enforced_graph}
+    \fitnessplotcaption{Penalty Function EA with the Validity Enforced, Randomly Generated Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_validity_enforced_bonus_graph}
+    \fitnessplotcaption{Repair Function EA with the Validity Enforced, Randomly Generated Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_validity_enforced_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Randomly Generated Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_uniform_random_graph}
+    \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Provided Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_uniform_random_bonus_graph}
+    \fitnessplotcaption{Repair Function EA with the Uniform Random Initialized, Provided Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_uniform_random_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Provided Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_uniform_random_graph}
+    \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_uniform_random_bonus_graph}
+    \fitnessplotcaption{Repair Function EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_uniform_random_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+\end{figure}
+
+\end{document}
