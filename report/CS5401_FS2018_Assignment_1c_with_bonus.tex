@@ -11,6 +11,8 @@
 
 \newcommand{\addgraphic}[1]{\centerline{\includegraphics[scale=0.6]{report/figures/{#1}.png}}}
 
+\newcommand{\tablecaption}[1]{\caption{Statistical Analysis performed on the {#1}, EA configurations}}
+
 \title{CS5401 FS2018 Assignment 1c with bonus}
 \author{William  Lorey \\ wwlytc@mst.edu}
 \date{ }
@@ -75,33 +77,265 @@ outperformed the repair function EA. Statistical analysis supporting this claim 
     \label{fig:random_gen_validity_enforced_bonus_graph}
 \end{figure}
 
-
 \begin{table}[]
-\caption{My caption}
-\label{my-label}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|}
-\hline
-                                                                                                          & random\_gen\_validity\_enforced & random\_gen\_validity\_enforced\_bonus \\ \hline
-mean                                                                                                      & 0.9081384890909392              & 0.9188060294943169                     \\ \hline
-variance                                                                                                  & 0.002217915192875166            & 0.060460786982912955                   \\ \hline
-standard deviation                                                                                        & 0.047094746977504466            & 0.24588775281195474                    \\ \hline
-observations                                                                                              & 30                              & 30                                     \\ \hline
-df                                                                                                        & 29                              & 29                                     \\ \hline
-F                                                                                                         & 0.036683531650059054            &                                        \\ \hline
-F critical                                                                                                & 0.5373999648406917              &                                        \\ \hline
-Unequal variances assumed                                                                                 &                                 &                                        \\ \hline
-                                                                                                          &                                 &                                        \\ \hline
-observations                                                                                              & 30                              &                                        \\ \hline
-df                                                                                                        & 31                              &                                        \\ \hline
-t Stat                                                                                                    & -0.2294580495633768             &                                        \\ \hline
-P two-tail                                                                                                & 0.8200141447652132              &                                        \\ \hline
-t Critical two-tail                                                                                       & 2.0395                          &                                        \\ \hline
-Nether random\_gen\_validity\_enforced\_bonus nor random\_gen\_validity\_enforced is statistically better &                                 &                                        \\ \hline
-\end{tabular}%
-}
+    \tablecaption{Validity Enforced Penalty Function and Repair function, Randomly Generated Puzzle}
+    \label{my-label}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                            & random\_gen\_validity\_enforced & random\_gen\_validity\_enforced\_bonus \\ \hline
+    mean                                                                                                      & 0.9081384890909392              & 0.9188060294943169                     \\ \hline
+    variance                                                                                                  & 0.002217915192875166            & 0.060460786982912955                   \\ \hline
+    standard deviation                                                                                        & 0.047094746977504466            & 0.24588775281195474                    \\ \hline
+    observations                                                                                              & 30                              & 30                                     \\ \hline
+    df                                                                                                        & 29                              & 29                                     \\ \hline
+    F                                                                                                         & 0.036683531650059054            &                                        \\ \hline
+    F critical                                                                                                & 0.5373999648406917              &                                        \\ \hline
+    Unequal variances assumed                                                                                 &                                 &                                        \\ \hline
+                                                                                                            &                                 &                                        \\ \hline
+    observations                                                                                              & 30                              &                                        \\ \hline
+    df                                                                                                        & 31                              &                                        \\ \hline
+    t Stat                                                                                                    & -0.2294580495633768             &                                        \\ \hline
+    P two-tail                                                                                                & 0.8200141447652132              &                                        \\ \hline
+    t Critical two-tail                                                                                       & 2.0395                          &                                        \\ \hline
+    Nether random\_gen\_validity\_enforced\_bonus nor random\_gen\_validity\_enforced is statistically better &                                 &                                        \\ \hline
+    \end{tabular}%
+    }
 \end{table}
 
+\begin{table}[]
+    \tablecaption{Validity Enforced Penalty Function and Repair function, Provided Puzzle}
+    \label{my-label}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                                & website\_puzzle\_validity\_enforced & website\_puzzle\_validity\_enforced\_bonus \\ \hline
+    mean                                                                                                        & 0.7569819819819819                  & 0.3173423423423423                         \\ \hline
+    variance                                                                                                    & 0.0033889801964126286               & 0.2015810912263615                         \\ \hline
+    standard deviation                                                                                          & 0.05821494822133426                 & 0.4489778293260832                         \\ \hline
+    observations                                                                                                & 30                                  & 30                                         \\ \hline
+    df                                                                                                          & 29                                  & 29                                         \\ \hline
+    F                                                                                                           & 0.016811994497078302                &                                            \\ \hline
+    F critical                                                                                                  & 0.5373999648406917                  &                                            \\ \hline
+    Equal variances assumed                                                                                     &                                     &                                            \\ \hline
+                                                                                                                &                                     &                                            \\ \hline
+    observations                                                                                                & 30                                  &                                            \\ \hline
+    df                                                                                                          & 58                                  &                                            \\ \hline
+    t Stat                                                                                                      & 5.229384989438686                   &                                            \\ \hline
+    P two-tail                                                                                                  & 2.4339170289675772e-06              &                                            \\ \hline
+    t Critical two-tail                                                                                         & 2.0017                              &                                            \\ \hline
+    website\_puzzle\_validity\_enforced is statistically better than website\_puzzle\_validity\_enforced\_bonus &                                     &                                            \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\begin{table}[]
+    \tablecaption{Uniform Random Initialized Penalty Function and Validity Enforced Initalized Penalty Function, Randomly Generated Puzzle}
+    \label{my-label}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                    & random\_gen\_uniform\_random & random\_gen\_validity\_enforced \\ \hline
+    mean                                                                                            & 0.8971591167744307           & 0.9081384890909392              \\ \hline
+    variance                                                                                        & 0.0048536750468879545        & 0.002217915192875166            \\ \hline
+    standard deviation                                                                              & 0.06966832168846868          & 0.047094746977504466            \\ \hline
+    observations                                                                                    & 30                           & 30                              \\ \hline
+    df                                                                                              & 29                           & 29                              \\ \hline
+    F                                                                                               & 2.1883952382308878           &                                 \\ \hline
+    F critical                                                                                      & 0.5373999648406917           &                                 \\ \hline
+    Equal variances assumed                                                                         &                              &                                 \\ \hline
+                                                                                                    &                              &                                 \\ \hline
+    observations                                                                                    & 30                           &                                 \\ \hline
+    df                                                                                              & 58                           &                                 \\ \hline
+    t Stat                                                                                          & -0.7031014079094314          &                                 \\ \hline
+    P two-tail                                                                                      & 0.48480534283767107          &                                 \\ \hline
+    t Critical two-tail                                                                             & 2.0017                       &                                 \\ \hline
+    Nether random\_gen\_validity\_enforced nor random\_gen\_uniform\_random is statistically better &                              &                                 \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\begin{table}[]
+    \tablecaption{Uniform Random Initialized Repair Function and Validity Enforced Initalized Repair Function, Randomly Generated Puzzle}
+    \label{my-label}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                                & random\_gen\_uniform\_random\_bonus & random\_gen\_validity\_enforced\_bonus \\ \hline
+    mean                                                                                                          & 0.9790060265443229                  & 0.9188060294943169                     \\ \hline
+    variance                                                                                                      & 0.0002560072950964829               & 0.060460786982912955                   \\ \hline
+    standard deviation                                                                                            & 0.016000227970141015                & 0.24588775281195474                    \\ \hline
+    observations                                                                                                  & 30                                  & 30                                     \\ \hline
+    df                                                                                                            & 29                                  & 29                                     \\ \hline
+    F                                                                                                             & 0.004234269976817107                &                                        \\ \hline
+    F critical                                                                                                    & 0.5373999648406917                  &                                        \\ \hline
+    Equal variances assumed                                                                                       &                                     &                                        \\ \hline
+                                                                                                                &                                     &                                        \\ \hline
+    observations                                                                                                  & 30                                  &                                        \\ \hline
+    df                                                                                                            & 58                                  &                                        \\ \hline
+    t Stat                                                                                                        & 1.315652066180613                   &                                        \\ \hline
+    P two-tail                                                                                                    & 0.19346782059815182                 &                                        \\ \hline
+    t Critical two-tail                                                                                           & 2.0017                              &                                        \\ \hline
+    Nether random\_gen\_validity\_enforced\_bonus nor random\_gen\_uniform\_random\_bonus is statistically better &                                     &                                        \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\begin{table}[]
+    \tablecaption{Uniform Random Initialized Vanilla and Validity Enforced Initalized Vanilla, Randomly Generated Puzzle}
+    \label{my-label}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                                      & random\_gen\_uniform\_random\_vanilla & random\_gen\_validity\_enforced\_vanilla \\ \hline
+    mean                                                                                                              & 0.03333333333333333                   & 0.03333333333333333                      \\ \hline
+    variance                                                                                                          & 0.032222222222222215                  & 0.03222222222222222                      \\ \hline
+    standard deviation                                                                                                & 0.17950549357115012                   & 0.17950549357115014                      \\ \hline
+    observations                                                                                                      & 30                                    & 30                                       \\ \hline
+    df                                                                                                                & 29                                    & 29                                       \\ \hline
+    F                                                                                                                 & 0.9999999999999998                    &                                          \\ \hline
+    F critical                                                                                                        & 0.5373999648406917                    &                                          \\ \hline
+    Unequal variances assumed                                                                                         &                                       &                                          \\ \hline
+                                                                                                                      &                                       &                                          \\ \hline
+    observations                                                                                                      & 30                                    &                                          \\ \hline
+    df                                                                                                                & 31                                    &                                          \\ \hline
+    t Stat                                                                                                            & 0.0                                   &                                          \\ \hline
+    P two-tail                                                                                                        & 1.0                                   &                                          \\ \hline
+    t Critical two-tail                                                                                               & 2.0395                                &                                          \\ \hline
+    Nether random\_gen\_validity\_enforced\_vanilla nor random\_gen\_uniform\_random\_vanilla is statistically better &                                       &                                          \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\begin{table}[]
+    \tablecaption{Uniform Random Initialized Penalty Function and Validity Enforced Initalized Penalty Function, Provided Puzzle}
+    \label{my-label}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+     & website\_puzzle\_uniform\_random & website\_puzzle\_validity\_enforced \\ \hline
+    mean & 0.7231981981981981 & 0.7569819819819819 \\ \hline
+    variance & 0.0018428394610827035 & 0.0033889801964126286 \\ \hline
+    standard deviation & 0.042928306058854726 & 0.05821494822133426 \\ \hline
+    observations & 30 & 30 \\ \hline
+    df & 29 & 29 \\ \hline
+    F & 0.5437740424194343 &  \\ \hline
+    F critical & 0.5373999648406917 &  \\ \hline
+    Equal variances assumed &  &  \\ \hline
+     &  &  \\ \hline
+    observations & 30 &  \\ \hline
+    df & 58 &  \\ \hline
+    t Stat & -2.515248538012428 &  \\ \hline
+    P two-tail & 0.014687698277300898 &  \\ \hline
+    t Critical two-tail & 2.0017 &  \\ \hline
+    website\_puzzle\_validity\_enforced is statistically better than website\_puzzle\_uniform\_random &  &  \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\begin{table}[]
+    \tablecaption{Uniform Random Initialized Repair Function and Validity Enforced Initalized Repair Function, Provided Puzzle}
+    \label{my-label}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                                        & website\_puzzle\_uniform\_random\_bonus & website\_puzzle\_validity\_enforced\_bonus \\ \hline
+    mean                                                                                                                  & 0.5038288288288288                      & 0.3173423423423423                         \\ \hline
+    variance                                                                                                              & 0.2221989388036686                      & 0.2015810912263615                         \\ \hline
+    standard deviation                                                                                                    & 0.47137982434939724                     & 0.4489778293260832                         \\ \hline
+    observations                                                                                                          & 30                                      & 30                                         \\ \hline
+    df                                                                                                                    & 29                                      & 29                                         \\ \hline
+    F                                                                                                                     & 1.1022806625952564                      &                                            \\ \hline
+    F critical                                                                                                            & 0.5373999648406917                      &                                            \\ \hline
+    Unequal variances assumed                                                                                             &                                         &                                            \\ \hline
+                                                                                                                        &                                         &                                            \\ \hline
+    observations                                                                                                          & 30                                      &                                            \\ \hline
+    df                                                                                                                    & 31                                      &                                            \\ \hline
+    t Stat                                                                                                                & 1.5426809688332364                      &                                            \\ \hline
+    P two-tail                                                                                                            & 0.12835995483574056                     &                                            \\ \hline
+    t Critical two-tail                                                                                                   & 2.0395                                  &                                            \\ \hline
+    Nether website\_puzzle\_validity\_enforced\_bonus nor website\_puzzle\_uniform\_random\_bonus is statistically better &                                         &                                            \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\begin{table}[]
+    \tablecaption{Valadity Inforced Initialized Penalty Function with Medium Penalty and Large Penalty, Provided Puzzle}
+    \label{my-label}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                                         & website\_puzzle\_validity\_enforced & website\_puzzle\_validity\_enforced\_large\_penalty \\ \hline
+    mean                                                                                                                 & 0.7569819819819819                  & 0.4020270270270271                                  \\ \hline
+    variance                                                                                                             & 0.0033889801964126286               & 0.024783144631117603                                \\ \hline
+    standard deviation                                                                                                   & 0.05821494822133426                 & 0.15742663253438918                                 \\ \hline
+    observations                                                                                                         & 30                                  & 30                                                  \\ \hline
+    df                                                                                                                   & 29                                  & 29                                                  \\ \hline
+    F                                                                                                                    & 0.13674536653260058                 &                                                     \\ \hline
+    F critical                                                                                                           & 0.5373999648406917                  &                                                     \\ \hline
+    Equal variances assumed                                                                                              &                                     &                                                     \\ \hline
+                                                                                                                         &                                     &                                                     \\ \hline
+    observations                                                                                                         & 30                                  &                                                     \\ \hline
+    df                                                                                                                   & 58                                  &                                                     \\ \hline
+    t Stat                                                                                                               & 11.388392849154927                  &                                                     \\ \hline
+    P two-tail                                                                                                           & 2.0169179415154988e-16              &                                                     \\ \hline
+    t Critical two-tail                                                                                                  & 2.0017                              &                                                     \\ \hline
+    website\_puzzle\_validity\_enforced is statistically better than website\_puzzle\_validity\_enforced\_large\_penalty &                                     &                                                     \\ \hline
+    \end{tabular}%
+    }
+    \end{table}
+
+\begin{table}[]
+    \tablecaption{Valadity Inforced Initialized Penalty Function with Small Penalty and Large Penalty, Provided Puzzle}
+    \label{my-label}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                                                        & website\_puzzle\_validity\_enforced\_small\_penalty & website\_puzzle\_validity\_enforced\_large\_penalty \\ \hline
+    mean                                                                                                                                 & 0.9291666666666667                                  & 0.4020270270270271                                  \\ \hline
+    variance                                                                                                                             & 0.00010251805859913959                              & 0.024783144631117603                                \\ \hline
+    standard deviation                                                                                                                   & 0.010125120177022077                                & 0.15742663253438918                                 \\ \hline
+    observations                                                                                                                         & 30                                                  & 30                                                  \\ \hline
+    df                                                                                                                                   & 29                                                  & 29                                                  \\ \hline
+    F                                                                                                                                    & 0.004136604136604133                                &                                                     \\ \hline
+    F critical                                                                                                                           & 0.5373999648406917                                  &                                                     \\ \hline
+    Equal variances assumed                                                                                                              &                                                     &                                                     \\ \hline
+                                                                                                                                        &                                                     &                                                     \\ \hline
+    observations                                                                                                                         & 30                                                  &                                                     \\ \hline
+    df                                                                                                                                   & 58                                                  &                                                     \\ \hline
+    t Stat                                                                                                                               & 17.994926171087094                                  &                                                     \\ \hline
+    P two-tail                                                                                                                           & 2.0818133467335364e-25                              &                                                     \\ \hline
+    t Critical two-tail                                                                                                                  & 2.0017                                              &                                                     \\ \hline
+    website\_puzzle\_validity\_enforced\_small\_penalty is statistically better than website\_puzzle\_validity\_enforced\_large\_penalty &                                                     &                                                     \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\begin{table}[]
+    \tablecaption{Valadity Inforced Initialized Penalty Function with Small Penalty and Medium Penalty, Provided Puzzle}
+    \label{my-label}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                                        & website\_puzzle\_validity\_enforced\_small\_penalty & website\_puzzle\_validity\_enforced \\ \hline
+    mean                                                                                                                 & 0.9291666666666667                                  & 0.7569819819819819                  \\ \hline
+    variance                                                                                                             & 0.00010251805859913959                              & 0.0033889801964126286               \\ \hline
+    standard deviation                                                                                                   & 0.010125120177022077                                & 0.05821494822133426                 \\ \hline
+    observations                                                                                                         & 30                                                  & 30                                  \\ \hline
+    df                                                                                                                   & 29                                                  & 29                                  \\ \hline
+    F                                                                                                                    & 0.030250415363199546                                &                                     \\ \hline
+    F critical                                                                                                           & 0.5373999648406917                                  &                                     \\ \hline
+    Equal variances assumed                                                                                              &                                                     &                                     \\ \hline
+                                                                                                                        &                                                     &                                     \\ \hline
+    observations                                                                                                         & 30                                                  &                                     \\ \hline
+    df                                                                                                                   & 58                                                  &                                     \\ \hline
+    t Stat                                                                                                               & 15.69233619401264                                   &                                     \\ \hline
+    P two-tail                                                                                                           & 1.5429129447240864e-22                              &                                     \\ \hline
+    t Critical two-tail                                                                                                  & 2.0017                                              &                                     \\ \hline
+    website\_puzzle\_validity\_enforced\_small\_penalty is statistically better than website\_puzzle\_validity\_enforced &                                                     &                                     \\ \hline
+    \end{tabular}%
+    }
+\end{table}
 
 \begin{figure}
     \addgraphic{website_puzzle_validity_enforced_vanilla_graph}

@@ -15,6 +15,8 @@ P two-tail, 0.8200141447652132
 t Critical two-tail, 2.0395
 Nether random_gen_validity_enforced_bonus nor random_gen_validity_enforced is statistically better
 
+
+
  ,website_puzzle_validity_enforced, website_puzzle_validity_enforced_bonus
 mean, 0.7569819819819819, 0.3173423423423423
 variance, 0.0033889801964126286, 0.2015810912263615
@@ -31,6 +33,8 @@ t Stat, 5.229384989438686
 P two-tail, 2.4339170289675772e-06
 t Critical two-tail, 2.0017
 website_puzzle_validity_enforced is statistically better than website_puzzle_validity_enforced_bonus
+
+
 
  ,random_gen_uniform_random, random_gen_validity_enforced
 mean, 0.8971591167744307, 0.9081384890909392
@@ -49,6 +53,8 @@ P two-tail, 0.48480534283767107
 t Critical two-tail, 2.0017
 Nether random_gen_validity_enforced nor random_gen_uniform_random is statistically better
 
+
+
  ,random_gen_uniform_random_bonus, random_gen_validity_enforced_bonus
 mean, 0.9790060265443229, 0.9188060294943169
 variance, 0.0002560072950964829, 0.060460786982912955
@@ -65,6 +71,8 @@ t Stat, 1.315652066180613
 P two-tail, 0.19346782059815182
 t Critical two-tail, 2.0017
 Nether random_gen_validity_enforced_bonus nor random_gen_uniform_random_bonus is statistically better
+
+
 
  ,random_gen_uniform_random_vanilla, random_gen_validity_enforced_vanilla
 mean, 0.03333333333333333, 0.03333333333333333
@@ -83,6 +91,8 @@ P two-tail, 1.0
 t Critical two-tail, 2.0395
 Nether random_gen_validity_enforced_vanilla nor random_gen_uniform_random_vanilla is statistically better
 
+
+
  ,website_puzzle_uniform_random, website_puzzle_validity_enforced
 mean, 0.7231981981981981, 0.7569819819819819
 variance, 0.0018428394610827035, 0.0033889801964126286
@@ -99,6 +109,8 @@ t Stat, -2.515248538012428
 P two-tail, 0.014687698277300898
 t Critical two-tail, 2.0017
 website_puzzle_validity_enforced is statistically better than website_puzzle_uniform_random
+
+
 
  ,website_puzzle_uniform_random_bonus, website_puzzle_validity_enforced_bonus
 mean, 0.5038288288288288, 0.3173423423423423
@@ -117,6 +129,8 @@ P two-tail, 0.12835995483574056
 t Critical two-tail, 2.0395
 Nether website_puzzle_validity_enforced_bonus nor website_puzzle_uniform_random_bonus is statistically better
 
+
+
  ,website_puzzle_uniform_random_vanilla, website_puzzle_validity_enforced_vanilla
 Unequal variances assumed
 
@@ -126,6 +140,8 @@ t Stat, nan
 P two-tail, nan
 t Critical two-tail, 2.0395
 Nether website_puzzle_validity_enforced_vanilla nor website_puzzle_uniform_random_vanilla is statistically better
+
+
 
  ,website_puzzle_validity_enforced, website_puzzle_validity_enforced_large_penalty
 mean, 0.7569819819819819, 0.4020270270270271
@@ -144,6 +160,8 @@ P two-tail, 2.0169179415154988e-16
 t Critical two-tail, 2.0017
 website_puzzle_validity_enforced is statistically better than website_puzzle_validity_enforced_large_penalty
 
+
+
  ,website_puzzle_validity_enforced_small_penalty, website_puzzle_validity_enforced_large_penalty
 mean, 0.9291666666666667, 0.4020270270270271
 variance, 0.00010251805859913959, 0.024783144631117603
@@ -161,6 +179,8 @@ P two-tail, 2.0818133467335364e-25
 t Critical two-tail, 2.0017
 website_puzzle_validity_enforced_small_penalty is statistically better than website_puzzle_validity_enforced_large_penalty
 
+
+
  ,website_puzzle_validity_enforced_small_penalty, website_puzzle_validity_enforced
 mean, 0.9291666666666667, 0.7569819819819819
 variance, 0.00010251805859913959, 0.0033889801964126286
@@ -177,4 +197,6 @@ t Stat, 15.69233619401264
 P two-tail, 1.5429129447240864e-22
 t Critical two-tail, 2.0017
 website_puzzle_validity_enforced_small_penalty is statistically better than website_puzzle_validity_enforced
+
+
 

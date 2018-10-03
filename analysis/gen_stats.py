@@ -163,5 +163,5 @@ for test_case in config.test_cases:
     else:
         print('Nether ' + b_name + ' nor ' + a_name + ' is statistically better')
 
-    print()
+    print('\n\n')
     
