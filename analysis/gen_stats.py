@@ -1,65 +1,10 @@
 #!/usr/bin/env python3
 
 from enum import Enum
+import analysis_config as config
 import math
 import numpy as np
 import scipy.stats as stats
-
-# Compare general improvements between penalty function EA, repair function EA,
-# and plain-vanilla EA
-test_cases = \
-    [
-        (
-            '../output/random_gen/random_gen_validity_enforced_last_best_local_fits.txt',
-            '../output/random_gen_bonus/random_gen_validity_enforced_bonus_last_best_local_fits.txt',
-            # '../output/random_gen_vanilla/random_gen_validity_enforced_vanilla_last_best_local_fits.txt'
-        ),
-        (
-            '../output/website_puzzle/website_puzzle_validity_enforced_last_best_local_fits.txt',
-            '../output/website_puzzle_bonus/website_puzzle_validity_enforced_bonus_last_best_local_fits.txt',
-            # '../output/website_puzzle_vanilla/website_puzzle_validity_enforced_vanilla_last_best_local_fits.txt'
-        ),
-
-# Compare uniform random EA vs validity enforced EA
-        (
-            '../output/random_gen/random_gen_uniform_random_last_best_local_fits.txt',
-            '../output/random_gen/random_gen_validity_enforced_last_best_local_fits.txt'
-        ),
-        (
-            '../output/random_gen_bonus/random_gen_uniform_random_bonus_last_best_local_fits.txt',
-            '../output/random_gen_bonus/random_gen_validity_enforced_bonus_last_best_local_fits.txt'
-        ),
-        (
-            '../output/random_gen_vanilla/random_gen_uniform_random_vanilla_last_best_local_fits.txt',
-            '../output/random_gen_vanilla/random_gen_validity_enforced_vanilla_last_best_local_fits.txt'
-        ),
-        (
-            '../output/website_puzzle/website_puzzle_uniform_random_last_best_local_fits.txt',
-            '../output/website_puzzle/website_puzzle_validity_enforced_last_best_local_fits.txt'
-        ),
-        (
-            '../output/website_puzzle_bonus/website_puzzle_uniform_random_bonus_last_best_local_fits.txt',
-            '../output/website_puzzle_bonus/website_puzzle_validity_enforced_bonus_last_best_local_fits.txt',
-        ),
-        (
-            '../output/website_puzzle_vanilla/website_puzzle_uniform_random_vanilla_last_best_local_fits.txt',
-            '../output/website_puzzle_vanilla/website_puzzle_validity_enforced_vanilla_last_best_local_fits.txt',
-        ),
-
-# Compare the penalty function EA w/ multiple penalty coefficients
-        (
-            '../output/website_puzzle/website_puzzle_validity_enforced_last_best_local_fits.txt',
-            '../output/website_puzzle/website_puzzle_validity_enforced_large_penalty_last_best_local_fits.txt'
-        ),
-        (
-            '../output/website_puzzle/website_puzzle_validity_enforced_small_penalty_last_best_local_fits.txt',
-            '../output/website_puzzle/website_puzzle_validity_enforced_large_penalty_last_best_local_fits.txt'
-        ),
-        (
-            '../output/website_puzzle/website_puzzle_validity_enforced_small_penalty_last_best_local_fits.txt',
-            '../output/website_puzzle/website_puzzle_validity_enforced_last_best_local_fits.txt'
-        )
-    ]
 
 
 class Assumptions(Enum):
@@ -88,8 +33,7 @@ def f_test(a, b):
     H0: var1 == var2
     H1: var1 != var2
 
-    Returns ASSUME_EQUAL_VARIANCES or
-            ASSUME_UNEQUAL_VARIANCES
+    Returns ASSUME_EQUAL_VARIANCES or ASSUME_UNEQUAL_VARIANCES
     """
     # Calculate each mean and variance
     mean_a = mean(a)
@@ -99,34 +43,47 @@ def f_test(a, b):
     std_dev_a = std_dev(var_a)
     std_dev_b = std_dev(var_b)
 
-    # Calculate F critical, placing the largest variance in the 
-    # numerator and the smallest in the denominator
+    # Calculate test statistic
     if var_a == 0 or var_b == 0:
         return Assumptions.ASSUME_UNEQUAL_VARIANCES
     else:
-        f_crit = max(var_a, var_b) / min(var_a, var_b)
+        F = var_a / var_b
 
     # Calculate degrees of freedom
     df_a = len(a) - 1
     df_b = len(b) - 1
 
-    # Select alpha, divide by two for the 2-tailed test
-    alpha = 0.05 / 2
+    # Significance level
+    alpha = 0.05
 
-    # Calculate f-value from a 'table'
-    f = stats.f.ppf(q=1-alpha, dfn=df_a, dfd=df_b)
+    # Calculate F-Critical
+    F_crit = stats.f.ppf(alpha, dfn=df_a, dfd=df_b)
+
+    # Print information
+    print('mean a: ' + str(mean_a))
+    print('mean b: ' + str(mean_b))
+    print('variance a: ' + str(var_a))
+    print('variance b: ' + str(var_b))
+    print('standard deviation a: ' + str(std_dev_a))
+    print('standard deviation b: ' + str(std_dev_b))
+    print('observations a: ' + str(len(a)))
+    print('observations b: ' + str(len(b)))
+    print('df a: ' + str(df_a))
+    print('df b: ' + str(df_b))
+    print('F: ' + str(F))
+    print('F critical: ' + str(F_crit))
 
     # Determine the assumption
-    if mean_a > mean_b and f < f_crit:
+    if mean_a > mean_b and F < F_crit:
         return Assumptions.ASSUME_EQUAL_VARIANCES
 
-    if mean_a > mean_b and f > f_crit:
+    if mean_a > mean_b and F > F_crit:
         return Assumptions.ASSUME_UNEQUAL_VARIANCES
 
-    if mean_a < mean_b and f > f_crit:
+    if mean_a < mean_b and F > F_crit:
         return Assumptions.ASSUME_EQUAL_VARIANCES
 
-    if mean_a < mean_b and f < f_crit:
+    if mean_a < mean_b and F < F_crit:
         return Assumptions.ASSUME_UNEQUAL_VARIANCES
     
     return None # Error
@@ -135,23 +92,40 @@ def f_test(a, b):
 def t_test(a, b, assumption):
     """Performs the t-test two-sample with assumption provided by the
     assumption parameter.
+
+    Returns the list representing the 'better' algorithm.
+    Returns None if neither algorithm can be deemed 'better'.
     """
+    # Calculate the t statistic and p two-tail value
     if assumption == Assumptions.ASSUME_EQUAL_VARIANCES:
-        t_stat, t_crit = stats.ttest_ind(a, b, equal_var=True)
+        t_stat, p = stats.ttest_ind(a, b, equal_var=True)
+        df = len(a) + len(b) - 2
 
     else: # Assume unequal variances
-        t_stat, t_crit = stats.ttest_ind(a, b, equal_var=False)
-    
+        t_stat, p = stats.ttest_ind(a, b, equal_var=False)
+        df = len(a) + 1
+
+    # Calculate the t critical two-tail value
+    # Note: an alpha value of 0.05 is assumed
+    t_crit = config.t_table[df]
+
+    # Print information
+    print('observations: ' + str(len(a)))
+    print('df: ' + str(df))
+    print('t Stat: ' + str(t_stat))
+    print('P two-tail: ' + str(p))
+    print('t Critical two-tail: ' + str(t_crit))
+
     if abs(t_stat) > abs(t_crit):
         # Reject the null hypothesis that the mean difference is zero
         # Conclude that the variable w/ the better mean represents a better algorithm for this problem
-        if var(a) > var(b):
+        if mean(a) > mean(b):
             return a
-        if var(a) < var(b):
+        if mean(a) < mean(b):
             return b
         else:
-            # Not sure what happens here
-            return None
+            # Undefined behavior
+            return -1
     
     else:
         # Accept the null hypothesis
@@ -159,12 +133,13 @@ def t_test(a, b, assumption):
         return None
 
 
-for test_case in test_cases:
+# Perform the statistical comparisons
+for test_case in config.test_cases:
     # Open and process the test files
     test_data = []
     for file in test_case:
         output_name = file
-        output_name = output_name[output_name.replace('/', '', 2).find('/') + 3:output_name.replace('.', '', 2).find('.') + 1]
+        output_name = output_name[output_name.replace('/', ' ', 2).find('/') + 1:output_name.find('_last')]
         test_data.append(([float(d) for d in open(file, 'r').read().split('\n') if d], output_name))
     
     a_data = test_data[0][0]
@@ -173,11 +148,24 @@ for test_case in test_cases:
     a_name = test_data[0][1]
     b_name = test_data[1][1]
 
+    print('a: ' + a_name)
+    print('b: ' + b_name)
+
     assumption = f_test(a_data, b_data)
-    result = t_test(a_data, b_data, assumption)
-    if result == a_data:
-        print(a_name + ' is better than ' + b_name)
-    elif result == b_data:
-        print(b_name + ' is better than ' + a_name)
+
+    if assumption == Assumptions.ASSUME_EQUAL_VARIANCES:
+        print('Equal variances assumed.')
     else:
-        print('Nether ' + b_name + ' nor ' + a_name + ' is better')
+        print('Unequal variances assumed')
+
+    result = t_test(a_data, b_data, assumption)
+
+    if result == a_data:
+        print(a_name + ' is statistically better than ' + b_name)
+    elif result == b_data:
+        print(b_name + ' is statistically better than ' + a_name)
+    else:
+        print('Nether ' + b_name + ' nor ' + a_name + ' is statistically better')
+
+    print()
+    
