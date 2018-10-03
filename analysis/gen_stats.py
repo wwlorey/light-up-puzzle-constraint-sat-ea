@@ -7,7 +7,7 @@ import scipy.stats as stats
 
 # Compare general improvements between penalty function EA, repair function EA,
 # and plain-vanilla EA
-general_tests_cases = \
+test_cases = \
     [
         (
             '../output/random_gen/random_gen_validity_enforced_last_best_local_fits.txt',
@@ -18,12 +18,9 @@ general_tests_cases = \
             '../output/website_puzzle/website_puzzle_validity_enforced_last_best_local_fits.txt',
             '../output/website_puzzle_bonus/website_puzzle_validity_enforced_bonus_last_best_local_fits.txt',
             # '../output/website_puzzle_vanilla/website_puzzle_validity_enforced_vanilla_last_best_local_fits.txt'
-        )
-    ]
+        ),
 
 # Compare uniform random EA vs validity enforced EA
-initialization_test_cases = \
-    [
         (
             '../output/random_gen/random_gen_uniform_random_last_best_local_fits.txt',
             '../output/random_gen/random_gen_validity_enforced_last_best_local_fits.txt'
@@ -45,27 +42,23 @@ initialization_test_cases = \
             '../output/website_puzzle_bonus/website_puzzle_validity_enforced_bonus_last_best_local_fits.txt',
         ),
         (
-            '../output/website_puzzle_vanilla/website_puzzle_uniform_random_vanilla_last_best_local_fits.txt'
-            '../output/website_puzzle_vanilla/website_puzzle_validity_enforced_vanilla_last_best_local_fits.txt'
-        )
-    ]
+            '../output/website_puzzle_vanilla/website_puzzle_uniform_random_vanilla_last_best_local_fits.txt',
+            '../output/website_puzzle_vanilla/website_puzzle_validity_enforced_vanilla_last_best_local_fits.txt',
+        ),
 
 # Compare the penalty function EA w/ multiple penalty coefficients
-penalty_test_cases = \
-    [
         (
-            '../output/website_puzzle/website_puzzle_validity_enforced_small_penalty_last_best_local_fits.txt',
             '../output/website_puzzle/website_puzzle_validity_enforced_last_best_local_fits.txt',
             '../output/website_puzzle/website_puzzle_validity_enforced_large_penalty_last_best_local_fits.txt'
+        ),
+        (
+            '../output/website_puzzle/website_puzzle_validity_enforced_small_penalty_last_best_local_fits.txt',
+            '../output/website_puzzle/website_puzzle_validity_enforced_large_penalty_last_best_local_fits.txt'
+        ),
+        (
+            '../output/website_puzzle/website_puzzle_validity_enforced_small_penalty_last_best_local_fits.txt',
+            '../output/website_puzzle/website_puzzle_validity_enforced_last_best_local_fits.txt'
         )
-    ]
-
-
-triplet_coord_pairs = \
-    [
-        (0, 1),
-        (1, 2),
-        (0, 2)
     ]
 
 
@@ -166,14 +159,14 @@ def t_test(a, b, assumption):
         return None
 
 
-for test_case in general_tests_cases:
+for test_case in test_cases:
     # Open and process the test files
     test_data = []
     for file in test_case:
         output_name = file
         output_name = output_name[output_name.replace('/', '', 2).find('/') + 3:output_name.replace('.', '', 2).find('.') + 1]
         test_data.append(([float(d) for d in open(file, 'r').read().split('\n') if d], output_name))
-
+    
     a_data = test_data[0][0]
     b_data = test_data[1][0]
 
