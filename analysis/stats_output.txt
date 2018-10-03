@@ -1,230 +1,180 @@
-a: random_gen_validity_enforced
-b: random_gen_validity_enforced_bonus
-mean a: 0.9081384890909392
-mean b: 0.9188060294943169
-variance a: 0.002217915192875166
-variance b: 0.060460786982912955
-standard deviation a: 0.047094746977504466
-standard deviation b: 0.24588775281195474
-observations a: 30
-observations b: 30
-df a: 29
-df b: 29
-F: 0.036683531650059054
-F critical: 0.5373999648406917
+ ,random_gen_validity_enforced, random_gen_validity_enforced_bonus
+mean, 0.9081384890909392, 0.9188060294943169
+variance, 0.002217915192875166, 0.060460786982912955
+standard deviation, 0.047094746977504466, 0.24588775281195474
+observations, 30, 30
+df, 29, 29
+F, 0.036683531650059054
+F critical, 0.5373999648406917
 Unequal variances assumed
-observations: 30
-df: 31
-t Stat: -0.2294580495633768
-P two-tail: 0.8200141447652132
-t Critical two-tail: 2.0395
+
+observations, 30
+df, 31
+t Stat, -0.2294580495633768
+P two-tail, 0.8200141447652132
+t Critical two-tail, 2.0395
 Nether random_gen_validity_enforced_bonus nor random_gen_validity_enforced is statistically better
 
-a: website_puzzle_validity_enforced
-b: website_puzzle_validity_enforced_bonus
-mean a: 0.7569819819819819
-mean b: 0.3173423423423423
-variance a: 0.0033889801964126286
-variance b: 0.2015810912263615
-standard deviation a: 0.05821494822133426
-standard deviation b: 0.4489778293260832
-observations a: 30
-observations b: 30
-df a: 29
-df b: 29
-F: 0.016811994497078302
-F critical: 0.5373999648406917
-Equal variances assumed.
-observations: 30
-df: 58
-t Stat: 5.229384989438686
-P two-tail: 2.4339170289675772e-06
-t Critical two-tail: 2.0017
+ ,website_puzzle_validity_enforced, website_puzzle_validity_enforced_bonus
+mean, 0.7569819819819819, 0.3173423423423423
+variance, 0.0033889801964126286, 0.2015810912263615
+standard deviation, 0.05821494822133426, 0.4489778293260832
+observations, 30, 30
+df, 29, 29
+F, 0.016811994497078302
+F critical, 0.5373999648406917
+Equal variances assumed
+
+observations, 30
+df, 58
+t Stat, 5.229384989438686
+P two-tail, 2.4339170289675772e-06
+t Critical two-tail, 2.0017
 website_puzzle_validity_enforced is statistically better than website_puzzle_validity_enforced_bonus
 
-a: random_gen_uniform_random
-b: random_gen_validity_enforced
-mean a: 0.8971591167744307
-mean b: 0.9081384890909392
-variance a: 0.0048536750468879545
-variance b: 0.002217915192875166
-standard deviation a: 0.06966832168846868
-standard deviation b: 0.047094746977504466
-observations a: 30
-observations b: 30
-df a: 29
-df b: 29
-F: 2.1883952382308878
-F critical: 0.5373999648406917
-Equal variances assumed.
-observations: 30
-df: 58
-t Stat: -0.7031014079094314
-P two-tail: 0.48480534283767107
-t Critical two-tail: 2.0017
+ ,random_gen_uniform_random, random_gen_validity_enforced
+mean, 0.8971591167744307, 0.9081384890909392
+variance, 0.0048536750468879545, 0.002217915192875166
+standard deviation, 0.06966832168846868, 0.047094746977504466
+observations, 30, 30
+df, 29, 29
+F, 2.1883952382308878
+F critical, 0.5373999648406917
+Equal variances assumed
+
+observations, 30
+df, 58
+t Stat, -0.7031014079094314
+P two-tail, 0.48480534283767107
+t Critical two-tail, 2.0017
 Nether random_gen_validity_enforced nor random_gen_uniform_random is statistically better
 
-a: random_gen_uniform_random_bonus
-b: random_gen_validity_enforced_bonus
-mean a: 0.9790060265443229
-mean b: 0.9188060294943169
-variance a: 0.0002560072950964829
-variance b: 0.060460786982912955
-standard deviation a: 0.016000227970141015
-standard deviation b: 0.24588775281195474
-observations a: 30
-observations b: 30
-df a: 29
-df b: 29
-F: 0.004234269976817107
-F critical: 0.5373999648406917
-Equal variances assumed.
-observations: 30
-df: 58
-t Stat: 1.315652066180613
-P two-tail: 0.19346782059815182
-t Critical two-tail: 2.0017
+ ,random_gen_uniform_random_bonus, random_gen_validity_enforced_bonus
+mean, 0.9790060265443229, 0.9188060294943169
+variance, 0.0002560072950964829, 0.060460786982912955
+standard deviation, 0.016000227970141015, 0.24588775281195474
+observations, 30, 30
+df, 29, 29
+F, 0.004234269976817107
+F critical, 0.5373999648406917
+Equal variances assumed
+
+observations, 30
+df, 58
+t Stat, 1.315652066180613
+P two-tail, 0.19346782059815182
+t Critical two-tail, 2.0017
 Nether random_gen_validity_enforced_bonus nor random_gen_uniform_random_bonus is statistically better
 
-a: random_gen_uniform_random_vanilla
-b: random_gen_validity_enforced_vanilla
-mean a: 0.03333333333333333
-mean b: 0.03333333333333333
-variance a: 0.032222222222222215
-variance b: 0.03222222222222222
-standard deviation a: 0.17950549357115012
-standard deviation b: 0.17950549357115014
-observations a: 30
-observations b: 30
-df a: 29
-df b: 29
-F: 0.9999999999999998
-F critical: 0.5373999648406917
+ ,random_gen_uniform_random_vanilla, random_gen_validity_enforced_vanilla
+mean, 0.03333333333333333, 0.03333333333333333
+variance, 0.032222222222222215, 0.03222222222222222
+standard deviation, 0.17950549357115012, 0.17950549357115014
+observations, 30, 30
+df, 29, 29
+F, 0.9999999999999998
+F critical, 0.5373999648406917
 Unequal variances assumed
-observations: 30
-df: 31
-t Stat: 0.0
-P two-tail: 1.0
-t Critical two-tail: 2.0395
+
+observations, 30
+df, 31
+t Stat, 0.0
+P two-tail, 1.0
+t Critical two-tail, 2.0395
 Nether random_gen_validity_enforced_vanilla nor random_gen_uniform_random_vanilla is statistically better
 
-a: website_puzzle_uniform_random
-b: website_puzzle_validity_enforced
-mean a: 0.7231981981981981
-mean b: 0.7569819819819819
-variance a: 0.0018428394610827035
-variance b: 0.0033889801964126286
-standard deviation a: 0.042928306058854726
-standard deviation b: 0.05821494822133426
-observations a: 30
-observations b: 30
-df a: 29
-df b: 29
-F: 0.5437740424194343
-F critical: 0.5373999648406917
-Equal variances assumed.
-observations: 30
-df: 58
-t Stat: -2.515248538012428
-P two-tail: 0.014687698277300898
-t Critical two-tail: 2.0017
+ ,website_puzzle_uniform_random, website_puzzle_validity_enforced
+mean, 0.7231981981981981, 0.7569819819819819
+variance, 0.0018428394610827035, 0.0033889801964126286
+standard deviation, 0.042928306058854726, 0.05821494822133426
+observations, 30, 30
+df, 29, 29
+F, 0.5437740424194343
+F critical, 0.5373999648406917
+Equal variances assumed
+
+observations, 30
+df, 58
+t Stat, -2.515248538012428
+P two-tail, 0.014687698277300898
+t Critical two-tail, 2.0017
 website_puzzle_validity_enforced is statistically better than website_puzzle_uniform_random
 
-a: website_puzzle_uniform_random_bonus
-b: website_puzzle_validity_enforced_bonus
-mean a: 0.5038288288288288
-mean b: 0.3173423423423423
-variance a: 0.2221989388036686
-variance b: 0.2015810912263615
-standard deviation a: 0.47137982434939724
-standard deviation b: 0.4489778293260832
-observations a: 30
-observations b: 30
-df a: 29
-df b: 29
-F: 1.1022806625952564
-F critical: 0.5373999648406917
+ ,website_puzzle_uniform_random_bonus, website_puzzle_validity_enforced_bonus
+mean, 0.5038288288288288, 0.3173423423423423
+variance, 0.2221989388036686, 0.2015810912263615
+standard deviation, 0.47137982434939724, 0.4489778293260832
+observations, 30, 30
+df, 29, 29
+F, 1.1022806625952564
+F critical, 0.5373999648406917
 Unequal variances assumed
-observations: 30
-df: 31
-t Stat: 1.5426809688332364
-P two-tail: 0.12835995483574056
-t Critical two-tail: 2.0395
+
+observations, 30
+df, 31
+t Stat, 1.5426809688332364
+P two-tail, 0.12835995483574056
+t Critical two-tail, 2.0395
 Nether website_puzzle_validity_enforced_bonus nor website_puzzle_uniform_random_bonus is statistically better
 
-a: website_puzzle_uniform_random_vanilla
-b: website_puzzle_validity_enforced_vanilla
+ ,website_puzzle_uniform_random_vanilla, website_puzzle_validity_enforced_vanilla
 Unequal variances assumed
-observations: 30
-df: 31
-t Stat: nan
-P two-tail: nan
-t Critical two-tail: 2.0395
+
+observations, 30
+df, 31
+t Stat, nan
+P two-tail, nan
+t Critical two-tail, 2.0395
 Nether website_puzzle_validity_enforced_vanilla nor website_puzzle_uniform_random_vanilla is statistically better
 
-a: website_puzzle_validity_enforced
-b: website_puzzle_validity_enforced_large_penalty
-mean a: 0.7569819819819819
-mean b: 0.4020270270270271
-variance a: 0.0033889801964126286
-variance b: 0.024783144631117603
-standard deviation a: 0.05821494822133426
-standard deviation b: 0.15742663253438918
-observations a: 30
-observations b: 30
-df a: 29
-df b: 29
-F: 0.13674536653260058
-F critical: 0.5373999648406917
-Equal variances assumed.
-observations: 30
-df: 58
-t Stat: 11.388392849154927
-P two-tail: 2.0169179415154988e-16
-t Critical two-tail: 2.0017
+ ,website_puzzle_validity_enforced, website_puzzle_validity_enforced_large_penalty
+mean, 0.7569819819819819, 0.4020270270270271
+variance, 0.0033889801964126286, 0.024783144631117603
+standard deviation, 0.05821494822133426, 0.15742663253438918
+observations, 30, 30
+df, 29, 29
+F, 0.13674536653260058
+F critical, 0.5373999648406917
+Equal variances assumed
+
+observations, 30
+df, 58
+t Stat, 11.388392849154927
+P two-tail, 2.0169179415154988e-16
+t Critical two-tail, 2.0017
 website_puzzle_validity_enforced is statistically better than website_puzzle_validity_enforced_large_penalty
 
-a: website_puzzle_validity_enforced_small_penalty
-b: website_puzzle_validity_enforced_large_penalty
-mean a: 0.9291666666666667
-mean b: 0.4020270270270271
-variance a: 0.00010251805859913959
-variance b: 0.024783144631117603
-standard deviation a: 0.010125120177022077
-standard deviation b: 0.15742663253438918
-observations a: 30
-observations b: 30
-df a: 29
-df b: 29
-F: 0.004136604136604133
-F critical: 0.5373999648406917
-Equal variances assumed.
-observations: 30
-df: 58
-t Stat: 17.994926171087094
-P two-tail: 2.0818133467335364e-25
-t Critical two-tail: 2.0017
+ ,website_puzzle_validity_enforced_small_penalty, website_puzzle_validity_enforced_large_penalty
+mean, 0.9291666666666667, 0.4020270270270271
+variance, 0.00010251805859913959, 0.024783144631117603
+standard deviation, 0.010125120177022077, 0.15742663253438918
+observations, 30, 30
+df, 29, 29
+F, 0.004136604136604133
+F critical, 0.5373999648406917
+Equal variances assumed
+
+observations, 30
+df, 58
+t Stat, 17.994926171087094
+P two-tail, 2.0818133467335364e-25
+t Critical two-tail, 2.0017
 website_puzzle_validity_enforced_small_penalty is statistically better than website_puzzle_validity_enforced_large_penalty
 
-a: website_puzzle_validity_enforced_small_penalty
-b: website_puzzle_validity_enforced
-mean a: 0.9291666666666667
-mean b: 0.7569819819819819
-variance a: 0.00010251805859913959
-variance b: 0.0033889801964126286
-standard deviation a: 0.010125120177022077
-standard deviation b: 0.05821494822133426
-observations a: 30
-observations b: 30
-df a: 29
-df b: 29
-F: 0.030250415363199546
-F critical: 0.5373999648406917
-Equal variances assumed.
-observations: 30
-df: 58
-t Stat: 15.69233619401264
-P two-tail: 1.5429129447240864e-22
-t Critical two-tail: 2.0017
+ ,website_puzzle_validity_enforced_small_penalty, website_puzzle_validity_enforced
+mean, 0.9291666666666667, 0.7569819819819819
+variance, 0.00010251805859913959, 0.0033889801964126286
+standard deviation, 0.010125120177022077, 0.05821494822133426
+observations, 30, 30
+df, 29, 29
+F, 0.030250415363199546
+F critical, 0.5373999648406917
+Equal variances assumed
+
+observations, 30
+df, 58
+t Stat, 15.69233619401264
+P two-tail, 1.5429129447240864e-22
+t Critical two-tail, 2.0017
 website_puzzle_validity_enforced_small_penalty is statistically better than website_puzzle_validity_enforced
 

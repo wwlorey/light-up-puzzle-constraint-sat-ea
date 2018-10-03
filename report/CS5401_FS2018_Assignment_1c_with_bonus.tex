@@ -9,7 +9,7 @@
 \newcommand{\fitnessplotcaption}[1]{\caption{Evaluations versus Average Local Fitness and Evaluations versus 
     Local Best Fitness for the \textbf{{#1}}, Averaged Over All Runs}}
 
-\newcommand{\addgraphic}[1]{\centerline{\includegraphics[scale=0.6]{figures/{#1}.png}}}
+\newcommand{\addgraphic}[1]{\centerline{\includegraphics[scale=0.6]{report/figures/{#1}.png}}}
 
 \title{CS5401 FS2018 Assignment 1c with bonus}
 \author{William  Lorey \\ wwlytc@mst.edu}
@@ -25,73 +25,130 @@
 
 Assignment 1c involved implementing an EA leveraging constraint satisfaction to
 more effectively solve Light Up puzzles. This report compares the performance of
-penalty function and repair function constraint satisfaction techniques and how they compare to
-a plain-vanilla EA. It also outlines a comparison between Validity Forced plus 
+penalty function and repair function constraint satisfaction techniques as well as
+plain-vanilla EA performance. It also outlines a comparison between Validity Forced plus 
 Uniform Random versus plain Uniform Random initialization for a plain-vanilla EA,
 a constraint satisfaction EA employing a penalty function, and a constraint satisfaction
 EA employing a repair function. The extent to which EA performance is affected by 
 the penalty coefficient used in a penalty function constraint satisfaction EA will also be examined.
 
-\section{General EA Comparisons}
+\section{Constraint Satisfaction EA Performance Comparisons}
+
+For the baseline assignment, an EA leveraging a penalty function was implemented. The penalty function
+subtracted from a given genotype's fitness the number of constraints violated multiplied by the
+penalty coefficient. Violated constraints involved bulbs shining on other bulbs and black cell
+constraints not being met.
+
+This EA was compared to an EA implemented for the bonus assignment that used the repair function
+constraint satisfaction technique. Figure \ref{fig:website_puzzle_validity_enforced_graph} and Figure 
+\ref{fig:website_puzzle_validity_enforced_bonus_graph} show evaluations versus fitness for the 
+penalty function EA and the repair function EA respectively tested against the Light Up puzzle provided
+on the course website.
+
+Figure \ref{fig:random_gen_validity_enforced_graph} and Figure \ref{fig:random_gen_validity_enforced_bonus_graph} 
+show evaluations versus fitness for the aforementioned EAs tested against randomly generated puzzles.
+
+Through visually examining each configuration, it can be deduced that the penalty function EA 
+outperformed the repair function EA. Statistical analysis supporting this claim can be found ??.
 
 \begin{figure}
     \addgraphic{website_puzzle_validity_enforced_graph}
     \fitnessplotcaption{Penalty Function EA with the Validity Enforced, Provided Puzzle}
+    \label{fig:website_puzzle_validity_enforced_graph}
 \end{figure}
 
 \begin{figure}
     \addgraphic{website_puzzle_validity_enforced_bonus_graph}
     \fitnessplotcaption{Repair Function EA with the Validity Enforced, Provided Puzzle}
-\end{figure}
-
-\begin{figure}
-    \addgraphic{website_puzzle_validity_enforced_vanilla_graph}
-    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Provided Puzzle}
+    \label{fig:website_puzzle_validity_enforced_bonus_graph}
 \end{figure}
 
 \begin{figure}
     \addgraphic{random_gen_validity_enforced_graph}
     \fitnessplotcaption{Penalty Function EA with the Validity Enforced, Randomly Generated Puzzle}
+    \label{fig:random_gen_validity_enforced_graph}
 \end{figure}
 
 \begin{figure}
     \addgraphic{random_gen_validity_enforced_bonus_graph}
     \fitnessplotcaption{Repair Function EA with the Validity Enforced, Randomly Generated Puzzle}
+    \label{fig:random_gen_validity_enforced_bonus_graph}
+\end{figure}
+
+
+\begin{table}[]
+\caption{My caption}
+\label{my-label}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|}
+\hline
+                                                                                                          & random\_gen\_validity\_enforced & random\_gen\_validity\_enforced\_bonus \\ \hline
+mean                                                                                                      & 0.9081384890909392              & 0.9188060294943169                     \\ \hline
+variance                                                                                                  & 0.002217915192875166            & 0.060460786982912955                   \\ \hline
+standard deviation                                                                                        & 0.047094746977504466            & 0.24588775281195474                    \\ \hline
+observations                                                                                              & 30                              & 30                                     \\ \hline
+df                                                                                                        & 29                              & 29                                     \\ \hline
+F                                                                                                         & 0.036683531650059054            &                                        \\ \hline
+F critical                                                                                                & 0.5373999648406917              &                                        \\ \hline
+Unequal variances assumed                                                                                 &                                 &                                        \\ \hline
+                                                                                                          &                                 &                                        \\ \hline
+observations                                                                                              & 30                              &                                        \\ \hline
+df                                                                                                        & 31                              &                                        \\ \hline
+t Stat                                                                                                    & -0.2294580495633768             &                                        \\ \hline
+P two-tail                                                                                                & 0.8200141447652132              &                                        \\ \hline
+t Critical two-tail                                                                                       & 2.0395                          &                                        \\ \hline
+Nether random\_gen\_validity\_enforced\_bonus nor random\_gen\_validity\_enforced is statistically better &                                 &                                        \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+
+\begin{figure}
+    \addgraphic{website_puzzle_validity_enforced_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Provided Puzzle}
+    \label{fig:website_puzzle_validity_enforced_vanilla_graph}
 \end{figure}
 
 \begin{figure}
     \addgraphic{random_gen_validity_enforced_vanilla_graph}
     \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Randomly Generated Puzzle}
+    \label{fig:random_gen_validity_enforced_vanilla_graph}
 \end{figure}
 
 \begin{figure}
     \addgraphic{website_puzzle_uniform_random_graph}
     \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Provided Puzzle}
+    \label{fig:website_puzzle_uniform_random_graph}
 \end{figure}
 
 \begin{figure}
     \addgraphic{website_puzzle_uniform_random_bonus_graph}
     \fitnessplotcaption{Repair Function EA with the Uniform Random Initialized, Provided Puzzle}
+    \label{fig:website_puzzle_uniform_random_bonus_graph}
 \end{figure}
 
 \begin{figure}
     \addgraphic{website_puzzle_uniform_random_vanilla_graph}
     \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Provided Puzzle}
+    \label{fig:website_puzzle_uniform_random_vanilla_graph}
 \end{figure}
 
 \begin{figure}
     \addgraphic{random_gen_uniform_random_graph}
     \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+    \label{fig:random_gen_uniform_random_graph}
 \end{figure}
 
 \begin{figure}
     \addgraphic{random_gen_uniform_random_bonus_graph}
     \fitnessplotcaption{Repair Function EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+    \label{fig:random_gen_uniform_random_bonus_graph}
 \end{figure}
 
 \begin{figure}
     \addgraphic{random_gen_uniform_random_vanilla_graph}
     \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+    \label{fig:random_gen_uniform_random_vanilla_graph}
 \end{figure}
 
 \end{document}

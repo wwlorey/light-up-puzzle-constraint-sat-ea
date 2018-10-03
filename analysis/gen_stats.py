@@ -60,18 +60,13 @@ def f_test(a, b):
     F_crit = stats.f.ppf(alpha, dfn=df_a, dfd=df_b)
 
     # Print information
-    print('mean a: ' + str(mean_a))
-    print('mean b: ' + str(mean_b))
-    print('variance a: ' + str(var_a))
-    print('variance b: ' + str(var_b))
-    print('standard deviation a: ' + str(std_dev_a))
-    print('standard deviation b: ' + str(std_dev_b))
-    print('observations a: ' + str(len(a)))
-    print('observations b: ' + str(len(b)))
-    print('df a: ' + str(df_a))
-    print('df b: ' + str(df_b))
-    print('F: ' + str(F))
-    print('F critical: ' + str(F_crit))
+    print('mean, ' + str(mean_a) + ', ' + str(mean(b)))
+    print('variance, ' + str(var_a) + ', ' + str(var_b))
+    print('standard deviation, ' + str(std_dev_a) + ', ' + str(std_dev_b))
+    print('observations, ' + str(len(a)) + ', ' + str(len(b)))
+    print('df, ' + str(df_a) + ', ' + str(df_b))
+    print('F, ' + str(F))
+    print('F critical, ' + str(F_crit))
 
     # Determine the assumption
     if mean_a > mean_b and F < F_crit:
@@ -110,11 +105,11 @@ def t_test(a, b, assumption):
     t_crit = config.t_table[df]
 
     # Print information
-    print('observations: ' + str(len(a)))
-    print('df: ' + str(df))
-    print('t Stat: ' + str(t_stat))
-    print('P two-tail: ' + str(p))
-    print('t Critical two-tail: ' + str(t_crit))
+    print('observations, ' + str(len(a)))
+    print('df, ' + str(df))
+    print('t Stat, ' + str(t_stat))
+    print('P two-tail, ' + str(p))
+    print('t Critical two-tail, ' + str(t_crit))
 
     if abs(t_stat) > abs(t_crit):
         # Reject the null hypothesis that the mean difference is zero
@@ -148,15 +143,16 @@ for test_case in config.test_cases:
     a_name = test_data[0][1]
     b_name = test_data[1][1]
 
-    print('a: ' + a_name)
-    print('b: ' + b_name)
+    print(' ,' + a_name + ', ' + b_name)
 
     assumption = f_test(a_data, b_data)
 
     if assumption == Assumptions.ASSUME_EQUAL_VARIANCES:
-        print('Equal variances assumed.')
+        print('Equal variances assumed')
     else:
         print('Unequal variances assumed')
+
+    print()
 
     result = t_test(a_data, b_data, assumption)
 
