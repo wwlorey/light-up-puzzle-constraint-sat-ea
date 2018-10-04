@@ -23,6 +23,7 @@
 
 \tableofcontents
 
+
 \section{Introduction}
 
 Assignment 1c involved implementing an EA leveraging constraint satisfaction to
@@ -34,10 +35,11 @@ a constraint satisfaction EA employing a penalty function, and a constraint sati
 EA employing a repair function. The extent to which EA performance is affected by 
 the penalty coefficient used in a penalty function constraint satisfaction EA will also be examined.
 
+
 \section{Constraint Satisfaction EA Performance Comparisons}
 
 For the baseline assignment, an EA leveraging a penalty function was implemented. The penalty function
-subtracted from a given genotype's fitness the number of constraints violated multiplied by the
+subtracted from a given genotype's fitness the number of constraints violated multiplied by a
 penalty coefficient. Violated constraints involved bulbs shining on other bulbs and black cell
 constraints not being met.
 
@@ -45,15 +47,22 @@ This EA was compared to an EA implemented for the bonus assignment that used the
 constraint satisfaction technique. Figure \ref{fig:website_puzzle_validity_enforced_graph} and Figure 
 \ref{fig:website_puzzle_validity_enforced_bonus_graph} show evaluations versus fitness for the 
 penalty function EA and the repair function EA respectively tested against the Light Up puzzle provided
-on the course website.
-
-Figure \ref{fig:random_gen_validity_enforced_graph} and Figure \ref{fig:random_gen_validity_enforced_bonus_graph} 
+on the course website. Figure \ref{fig:random_gen_validity_enforced_graph} and Figure \ref{fig:random_gen_validity_enforced_bonus_graph} 
 show evaluations versus fitness for the aforementioned EAs tested against randomly generated puzzles.
 
-Through visually examining each configuration, it can be deduced that the penalty function EA 
-outperformed the repair function EA. Statistical analysis supporting this claim can be found ??.
+Through visually examining each configuration's fitness plots, it appears that the penalty function EA 
+outperforms the repair function EA. However, statistical analysis seen in Table \ref{rand_constr} and Table \ref{provided_constr}
+proves that for randomly generated puzzles, neither constraint satisfaction method yields a more effective EA. Note that the table
+headers correspond to the configuration files used to generate the data upon which statistical analysis was performed.
+A performance boost was proven when examining the provided puzzle tests, proving that the penalty function EA was in fact
+optimal when compared to the repair function EA for that problem. 
 
-\begin{figure}
+The vanilla EA tested on a validity enforced initialization (Figure \ref{fig:website_puzzle_validity_enforced_vanilla_graph} 
+and Figure \ref{fig:random_gen_validity_enforced_vanilla_graph}) performed very poorly compared to the constraint satisfaction EAs.
+This is because with black cell adjacency constraints enforced, invalid solutions produce fitness values of zero. With many invalid solutions
+dominating the population, no search gradient is provided and the EA struggles to find any solution.
+
+\begin{figure}[h]
     \addgraphic{website_puzzle_validity_enforced_graph}
     \fitnessplotcaption{Penalty Function EA with the Validity Enforced, Provided Puzzle}
     \label{fig:website_puzzle_validity_enforced_graph}
@@ -77,7 +86,7 @@ outperformed the repair function EA. Statistical analysis supporting this claim 
     \label{fig:random_gen_validity_enforced_bonus_graph}
 \end{figure}
 
-\begin{table}[]
+\begin{table}[h]
     \tablecaption{Validity Enforced Penalty Function and Repair function, Randomly Generated Puzzle}
     \label{rand_constr}
     \resizebox{\textwidth}{!}{%
@@ -105,7 +114,7 @@ outperformed the repair function EA. Statistical analysis supporting this claim 
 
 \begin{table}[]
     \tablecaption{Validity Enforced Penalty Function and Repair function, Provided Puzzle}
-    \label{validity_penalty_vs_repair_provided}
+    \label{provided_constr}
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{|l|l|l|}
     \hline
@@ -128,6 +137,32 @@ outperformed the repair function EA. Statistical analysis supporting this claim 
     \end{tabular}%
     }
 \end{table}
+
+\begin{figure}
+    \addgraphic{website_puzzle_validity_enforced_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Provided Puzzle}
+    \label{fig:website_puzzle_validity_enforced_vanilla_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_validity_enforced_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Randomly Generated Puzzle}
+    \label{fig:random_gen_validity_enforced_vanilla_graph}
+\end{figure}
+
+
+\section{Initialization Comparisons}
+
+The effect of Validity Forced plus Uniform Random versus plain Uniform Random was examined
+regarding the plain-vanilla EA, the penalty function EA, and the repair function EA.
+
+
+
+
+
+
+
+
 
 \begin{table}[]
     \tablecaption{Uniform Random Initialized Penalty Function and Validity Enforced Initalized Penalty Function, Randomly Generated Puzzle}
@@ -337,17 +372,6 @@ outperformed the repair function EA. Statistical analysis supporting this claim 
     }
 \end{table}
 
-\begin{figure}
-    \addgraphic{website_puzzle_validity_enforced_vanilla_graph}
-    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Provided Puzzle}
-    \label{fig:website_puzzle_validity_enforced_vanilla_graph}
-\end{figure}
-
-\begin{figure}
-    \addgraphic{random_gen_validity_enforced_vanilla_graph}
-    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Randomly Generated Puzzle}
-    \label{fig:random_gen_validity_enforced_vanilla_graph}
-\end{figure}
 
 \begin{figure}
     \addgraphic{website_puzzle_uniform_random_graph}
