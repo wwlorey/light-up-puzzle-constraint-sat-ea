@@ -62,7 +62,7 @@ and Figure \ref{fig:random_gen_validity_enforced_vanilla_graph}) performed very 
 This is because with black cell adjacency constraints enforced, invalid solutions produce fitness values of zero. With many invalid solutions
 dominating the population, no search gradient is provided and the EA struggles to find any solution.
 
-\begin{figure}[h]
+\begin{figure}
     \addgraphic{website_puzzle_validity_enforced_graph}
     \fitnessplotcaption{Penalty Function EA with the Validity Enforced, Provided Puzzle}
     \label{fig:website_puzzle_validity_enforced_graph}
@@ -156,65 +156,17 @@ dominating the population, no search gradient is provided and the EA struggles t
 The effect of Validity Forced plus Uniform Random versus plain Uniform Random was examined
 regarding the plain-vanilla EA, the penalty function EA, and the repair function EA.
 
+The comparison for the plain-vanilla EA tested against the randomly generated puzzle
+(graphed in Figure \ref{fig:random_gen_uniform_random_vanilla_graph}
+and Figure \ref{fig:random_gen_validity_enforced_vanilla_graph}, and analyzed in Table \ref{uniform_vs_validity_vanilla_rand})
+proved that neither initialization method led to quantifiable improvements. Granted, neither plain-vanilla EA configuration
+managed to reliably find meaningful solutions.
 
-
-
-
-
-
-
-
-\begin{table}[]
-    \tablecaption{Uniform Random Initialized Penalty Function and Validity Enforced Initalized Penalty Function, Randomly Generated Puzzle}
-    \label{uniform_penalty_vs_validity_penalty_rand}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|l|l|}
-    \hline
-                                                                                                    & random\_gen\_uniform\_random & random\_gen\_validity\_enforced \\ \hline
-    mean                                                                                            & 0.8971591167744307           & 0.9081384890909392              \\ \hline
-    variance                                                                                        & 0.0048536750468879545        & 0.002217915192875166            \\ \hline
-    standard deviation                                                                              & 0.06966832168846868          & 0.047094746977504466            \\ \hline
-    observations                                                                                    & 30                           & 30                              \\ \hline
-    df                                                                                              & 29                           & 29                              \\ \hline
-    F                                                                                               & 2.1883952382308878           &                                 \\ \hline
-    F critical                                                                                      & 0.5373999648406917           &                                 \\ \hline
-    Equal variances assumed                                                                         &                              &                                 \\ \hline
-                                                                                                    &                              &                                 \\ \hline
-    observations                                                                                    & 30                           &                                 \\ \hline
-    df                                                                                              & 58                           &                                 \\ \hline
-    t Stat                                                                                          & -0.7031014079094314          &                                 \\ \hline
-    P two-tail                                                                                      & 0.48480534283767107          &                                 \\ \hline
-    t Critical two-tail                                                                             & 2.0017                       &                                 \\ \hline
-    Nether random\_gen\_validity\_enforced nor random\_gen\_uniform\_random is statistically better &                              &                                 \\ \hline
-    \end{tabular}%
-    }
-\end{table}
-
-\begin{table}[]
-    \tablecaption{Uniform Random Initialized Repair Function and Validity Enforced Initalized Repair Function, Randomly Generated Puzzle}
-    \label{uniform_vs_validity_repair_rand}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|l|l|}
-    \hline
-                                                                                                                & random\_gen\_uniform\_random\_bonus & random\_gen\_validity\_enforced\_bonus \\ \hline
-    mean                                                                                                          & 0.9790060265443229                  & 0.9188060294943169                     \\ \hline
-    variance                                                                                                      & 0.0002560072950964829               & 0.060460786982912955                   \\ \hline
-    standard deviation                                                                                            & 0.016000227970141015                & 0.24588775281195474                    \\ \hline
-    observations                                                                                                  & 30                                  & 30                                     \\ \hline
-    df                                                                                                            & 29                                  & 29                                     \\ \hline
-    F                                                                                                             & 0.004234269976817107                &                                        \\ \hline
-    F critical                                                                                                    & 0.5373999648406917                  &                                        \\ \hline
-    Equal variances assumed                                                                                       &                                     &                                        \\ \hline
-                                                                                                                &                                     &                                        \\ \hline
-    observations                                                                                                  & 30                                  &                                        \\ \hline
-    df                                                                                                            & 58                                  &                                        \\ \hline
-    t Stat                                                                                                        & 1.315652066180613                   &                                        \\ \hline
-    P two-tail                                                                                                    & 0.19346782059815182                 &                                        \\ \hline
-    t Critical two-tail                                                                                           & 2.0017                              &                                        \\ \hline
-    Nether random\_gen\_validity\_enforced\_bonus nor random\_gen\_uniform\_random\_bonus is statistically better &                                     &                                        \\ \hline
-    \end{tabular}%
-    }
-\end{table}
+\begin{figure}
+    \addgraphic{random_gen_uniform_random_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+    \label{fig:random_gen_uniform_random_vanilla_graph}
+\end{figure}
 
 \begin{table}[]
     \tablecaption{Uniform Random Initialized Vanilla and Validity Enforced Initalized Vanilla, Randomly Generated Puzzle}
@@ -238,6 +190,63 @@ regarding the plain-vanilla EA, the penalty function EA, and the repair function
     P two-tail                                                                                                        & 1.0                                   &                                          \\ \hline
     t Critical two-tail                                                                                               & 2.0395                                &                                          \\ \hline
     Nether random\_gen\_validity\_enforced\_vanilla nor random\_gen\_uniform\_random\_vanilla is statistically better &                                       &                                          \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+Figure \ref{fig:random_gen_validity_enforced_graph} and Figure \ref{fig:random_gen_uniform_random_graph} 
+illustrate the penalty function EA configuration tested with both Uniform Random and 
+Validity Enforced plus Uniform Random for randomly generated puzzles. Figure \ref{fig:website_puzzle_validity_enforced_graph} 
+and Figure \ref{fig:website_puzzle_uniform_random_graph} illustrate
+the same comparison for the provided puzzle. The statistical analysis comparing these two 
+configurations can be found in Table \ref{uniform_penalty_vs_validity_penalty_rand} and Table \ref{uniform_vs_validity_penalty_provided}.
+
+The statistical analysis showed that for randomly generated puzzles, neither initialization method
+made a quantifiable improvement on the EA's results. Randomly generated puzzles are generally less
+complicated to solve, so the Validity Enforced initialization's lack of impact in this case is justified.
+
+The analysis also showed that the EA was more sensitive to initialization configuration
+for the provided puzzle, an objectively difficult puzzle to solve. The Validity Enforced Uniform Random
+initialization configured EA proved to be statistically better than the Uniform Random initialization
+configured EA for this problem instance. Since enforcing validity upon initialization shrinks the search space by ensuring the validity
+of conditions that can only be fulfilled one way (such as a `3' valued black cell placed along an edge),
+and since the search space is more difficult to traverse for highly difficult puzzles, Validity Enforced
+Uniform Random initialization produces a higher performing EA for the provided puzzle.
+
+\begin{figure}
+    \addgraphic{website_puzzle_uniform_random_graph}
+    \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Provided Puzzle}
+    \label{fig:website_puzzle_uniform_random_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_uniform_random_graph}
+    \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+    \label{fig:random_gen_uniform_random_graph}
+\end{figure}
+
+\begin{table}[]
+    \tablecaption{Uniform Random Initialized Penalty Function and Validity Enforced Initalized Penalty Function, Randomly Generated Puzzle}
+    \label{uniform_penalty_vs_validity_penalty_rand}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                    & random\_gen\_uniform\_random & random\_gen\_validity\_enforced \\ \hline
+    mean                                                                                            & 0.8971591167744307           & 0.9081384890909392              \\ \hline
+    variance                                                                                        & 0.0048536750468879545        & 0.002217915192875166            \\ \hline
+    standard deviation                                                                              & 0.06966832168846868          & 0.047094746977504466            \\ \hline
+    observations                                                                                    & 30                           & 30                              \\ \hline
+    df                                                                                              & 29                           & 29                              \\ \hline
+    F                                                                                               & 2.1883952382308878           &                                 \\ \hline
+    F critical                                                                                      & 0.5373999648406917           &                                 \\ \hline
+    Equal variances assumed                                                                         &                              &                                 \\ \hline
+                                                                                                    &                              &                                 \\ \hline
+    observations                                                                                    & 30                           &                                 \\ \hline
+    df                                                                                              & 58                           &                                 \\ \hline
+    t Stat                                                                                          & -0.7031014079094314          &                                 \\ \hline
+    P two-tail                                                                                      & 0.48480534283767107          &                                 \\ \hline
+    t Critical two-tail                                                                             & 2.0017                       &                                 \\ \hline
+    Nether random\_gen\_validity\_enforced nor random\_gen\_uniform\_random is statistically better &                              &                                 \\ \hline
     \end{tabular}%
     }
 \end{table}
@@ -267,6 +276,40 @@ regarding the plain-vanilla EA, the penalty function EA, and the repair function
     \end{tabular}%
     }
 \end{table}
+
+
+
+
+
+
+
+\begin{table}[]
+    \tablecaption{Uniform Random Initialized Repair Function and Validity Enforced Initalized Repair Function, Randomly Generated Puzzle}
+    \label{uniform_vs_validity_repair_rand}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                                & random\_gen\_uniform\_random\_bonus & random\_gen\_validity\_enforced\_bonus \\ \hline
+    mean                                                                                                          & 0.9790060265443229                  & 0.9188060294943169                     \\ \hline
+    variance                                                                                                      & 0.0002560072950964829               & 0.060460786982912955                   \\ \hline
+    standard deviation                                                                                            & 0.016000227970141015                & 0.24588775281195474                    \\ \hline
+    observations                                                                                                  & 30                                  & 30                                     \\ \hline
+    df                                                                                                            & 29                                  & 29                                     \\ \hline
+    F                                                                                                             & 0.004234269976817107                &                                        \\ \hline
+    F critical                                                                                                    & 0.5373999648406917                  &                                        \\ \hline
+    Equal variances assumed                                                                                       &                                     &                                        \\ \hline
+                                                                                                                &                                     &                                        \\ \hline
+    observations                                                                                                  & 30                                  &                                        \\ \hline
+    df                                                                                                            & 58                                  &                                        \\ \hline
+    t Stat                                                                                                        & 1.315652066180613                   &                                        \\ \hline
+    P two-tail                                                                                                    & 0.19346782059815182                 &                                        \\ \hline
+    t Critical two-tail                                                                                           & 2.0017                              &                                        \\ \hline
+    Nether random\_gen\_validity\_enforced\_bonus nor random\_gen\_uniform\_random\_bonus is statistically better &                                     &                                        \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
 
 \begin{table}[]
     \tablecaption{Uniform Random Initialized Repair Function and Validity Enforced Initalized Repair Function, Provided Puzzle}
@@ -373,28 +416,11 @@ regarding the plain-vanilla EA, the penalty function EA, and the repair function
 \end{table}
 
 
-\begin{figure}
-    \addgraphic{website_puzzle_uniform_random_graph}
-    \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Provided Puzzle}
-    \label{fig:website_puzzle_uniform_random_graph}
-\end{figure}
 
 \begin{figure}
     \addgraphic{website_puzzle_uniform_random_bonus_graph}
     \fitnessplotcaption{Repair Function EA with the Uniform Random Initialized, Provided Puzzle}
     \label{fig:website_puzzle_uniform_random_bonus_graph}
-\end{figure}
-
-\begin{figure}
-    \addgraphic{website_puzzle_uniform_random_vanilla_graph}
-    \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Provided Puzzle}
-    \label{fig:website_puzzle_uniform_random_vanilla_graph}
-\end{figure}
-
-\begin{figure}
-    \addgraphic{random_gen_uniform_random_graph}
-    \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Randomly Generated Puzzle}
-    \label{fig:random_gen_uniform_random_graph}
 \end{figure}
 
 \begin{figure}
@@ -404,9 +430,9 @@ regarding the plain-vanilla EA, the penalty function EA, and the repair function
 \end{figure}
 
 \begin{figure}
-    \addgraphic{random_gen_uniform_random_vanilla_graph}
-    \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Randomly Generated Puzzle}
-    \label{fig:random_gen_uniform_random_vanilla_graph}
+    \addgraphic{website_puzzle_uniform_random_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Provided Puzzle}
+    \label{fig:website_puzzle_uniform_random_vanilla_graph}
 \end{figure}
 
 \end{document}
