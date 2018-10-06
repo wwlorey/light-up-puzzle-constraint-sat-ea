@@ -33,7 +33,7 @@ plain-vanilla EA performance. It also outlines a comparison between Validity For
 Uniform Random versus plain Uniform Random initialization for a plain-vanilla EA,
 a constraint satisfaction EA employing a penalty function, and a constraint satisfaction
 EA employing a repair function. The extent to which EA performance is affected by 
-the penalty coefficient used in a penalty function constraint satisfaction EA will also be examined.
+the penalty coefficient used in penalty function constraint satisfaction EAs will also be examined.
 
 
 \section{Constraint Satisfaction EA Performance Comparisons}
@@ -48,12 +48,16 @@ constraint satisfaction technique. Figure \ref{fig:website_puzzle_validity_enfor
 \ref{fig:website_puzzle_validity_enforced_bonus_graph} show evaluations versus fitness for the 
 penalty function EA and the repair function EA respectively tested against the Light Up puzzle provided
 on the course website. Figure \ref{fig:random_gen_validity_enforced_graph} and Figure \ref{fig:random_gen_validity_enforced_bonus_graph} 
-show evaluations versus fitness for the aforementioned EAs tested against randomly generated puzzles.
+show evaluations versus fitness for the aforementioned EAs tested against randomly generated puzzles. Note that 
+for situations where the best fitness for a solution plateaus, there is possibility of encountering a decreasing average fitness
+as higher mutation factors are introduced to combat a stagnant population.
 
 Through visually examining each configuration's fitness plots, it appears that the penalty function EA 
 outperforms the repair function EA. However, statistical analysis seen in Table \ref{rand_constr} and Table \ref{provided_constr}
 proves that for randomly generated puzzles, neither constraint satisfaction method yields a more effective EA. Note that the table
-headers correspond to the configuration files used to generate the data upon which statistical analysis was performed.
+headers correspond to the configuration files used to generate the data upon which statistical analysis was performed and that
+all statistical analysis consisted of the F-Test Two-Sample for Variances followed by the t-test Two-Sample Assuming either Unequal or
+Equal Variances depending on the F-Test output.
 A performance boost was proven when examining the provided puzzle tests, proving that the penalty function EA was in fact
 optimal when compared to the repair function EA for that problem. 
 
@@ -110,6 +114,16 @@ penalty coefficient of 0.25 lead to an ea that outperformed the EA configured wi
 the medium and large coefficients (Table \ref{med_vs_large}) led to the conclusion that, again, the smaller coefficient configured EA 
 outperformed the larger penalty coefficient configured EA. This conclusion was also drawn from the last comparison, comparing the small
 penalty coefficient to the large penalty coefficient (Table \ref{small_vs_large}).
+
+In each comparison case, the smaller penalty function led to a higher best fitness and a higher average population fitness when
+all run data was averaged. This is because when invalid individuals that do not meet all constraints are penalized, their fitness decreases
+by a small fraction for smaller penalty coefficients and by a larger fraction for larger penalty coefficients. The final population of a
+penalty function configured EA using a small penalty function may actually have the same number of invalid solutions as the population of an
+EA configured with a large penalty coefficient, but the small coefficient EA will read as having higher fitness values. With this fact in mind,
+it is also important to consider the reason a penalty function constraint satisfaction method is used. Employing a penalty function allows for
+invalid solutions to be examined with the hope that those invalid solutions lead to a valid solution after some exploration. This can be 
+equated to traversing the `sea' of validity on the way to a more optimal solution. Keeping the penalty coefficient relatively small incentivises
+the traversal of invalid areas of the search space, possibly allowing for a more optimal solution to be discovered.
 
 
 \section{Appendix: Additional Figures and Tables}
