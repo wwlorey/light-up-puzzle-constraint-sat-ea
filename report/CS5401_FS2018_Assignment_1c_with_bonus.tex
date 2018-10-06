@@ -5,7 +5,7 @@
 % Prevent heading numbers
 \setcounter{secnumdepth}{0}
 
-% Function definitions
+% Command definitions 
 \newcommand{\fitnessplotcaption}[1]{\caption{Evaluations versus Average Local Fitness and Evaluations versus 
     Local Best Fitness for the \textbf{{#1}}, Averaged Over All Runs}}
 
@@ -15,7 +15,7 @@
 
 \title{CS5401 FS2018 Assignment 1c with bonus}
 \author{William  Lorey \\ wwlytc@mst.edu}
-\date{ }
+\date{}
 
 \begin{document}
 
@@ -62,6 +62,59 @@ and Figure \ref{fig:random_gen_validity_enforced_vanilla_graph}) performed very 
 This is because with black cell adjacency constraints enforced, invalid solutions produce fitness values of zero. With many invalid solutions
 dominating the population, no search gradient is provided and the EA struggles to find any solution.
 
+
+\section{Initialization Comparisons}
+
+The effect of Validity Forced plus Uniform Random versus plain Uniform Random was examined
+regarding the plain-vanilla EA, the penalty function EA, and the repair function EA.
+
+The comparison for the plain-vanilla EA tested against the randomly generated puzzle
+(graphed in Figure \ref{fig:random_gen_uniform_random_vanilla_graph}
+and Figure \ref{fig:random_gen_validity_enforced_vanilla_graph}, and analyzed in Table \ref{uniform_vs_validity_vanilla_rand})
+proved that neither initialization method led to quantifiable improvements. Granted, neither plain-vanilla EA configuration
+managed to reliably find meaningful solutions.
+
+Figure \ref{fig:random_gen_validity_enforced_graph} and Figure \ref{fig:random_gen_uniform_random_graph} 
+illustrate the penalty function EA configuration tested with both Uniform Random and 
+Validity Enforced plus Uniform Random for randomly generated puzzles. Figure \ref{fig:website_puzzle_validity_enforced_graph} 
+and Figure \ref{fig:website_puzzle_uniform_random_graph} illustrate
+the same comparison for the provided puzzle. The statistical analysis comparing these two 
+configurations can be found in Table \ref{uniform_penalty_vs_validity_penalty_rand} and Table \ref{uniform_vs_validity_penalty_provided}.
+
+This statistical analysis showed that for randomly generated puzzles, neither initialization method
+made a quantifiable improvement on the EA's results. Randomly generated puzzles are generally less
+complicated to solve, so the Validity Enforced initialization's lack of impact in this case is justified.
+
+The analysis also showed that the EA was more sensitive to initialization configuration
+for the provided puzzle, an objectively difficult puzzle to solve. The Validity Enforced Uniform Random
+initialization configured EA proved to be statistically better than the Uniform Random initialization
+configured EA for this problem instance. Since enforcing validity upon initialization shrinks the search space by ensuring the validity
+of conditions that can only be fulfilled one way (such as a `3' valued black cell placed along an edge leads to one single way to
+ensure that constraint is valid), and since the search space is more difficult to traverse for 
+highly difficult puzzles, Validity Enforced Uniform Random initialization produces a higher performing EA for 
+the provided puzzle.
+
+
+\section{The Penalty Coefficient and its Effect on Solution Quality}
+
+The penalty function EA, tested against the provided puzzle, was configured using three different penalty coefficients
+to test their effect on the EA's performance. The first coefficient tested was a small coefficient, equating to 0.25. The
+second was the medium coefficient, equating to 3. The third was the large coefficient, equating to 10. The fitness graphs for
+each of these coefficients may be found in Figure \ref{fig:website_puzzle_validity_enforced_small_penalty_graph},
+Figure \ref{fig:website_puzzle_validity_enforced_med_penalty_graph}, and Figure 
+\ref{fig:website_puzzle_validity_enforced_large_penalty_graph} respectively.
+
+In order to properly compare each configuration, pairwise statistical analysis was performed between each pair of coefficient types
+(small, medium, and large). Analysis comparing the small and medium coefficients (Table \ref{small_vs_med}) showed that the small
+penalty coefficient of 0.25 lead to an ea that outperformed the EA configured with the medium coefficient of 3. The comparison between
+the medium and large coefficients (Table \ref{med_vs_large}) led to the conclusion that, again, the smaller coefficient configured EA 
+outperformed the larger penalty coefficient configured EA. This conclusion was also drawn from the last comparison, comparing the small
+penalty coefficient to the large penalty coefficient (Table \ref{small_vs_large}).
+
+
+\section{Appendix: Additional Figures and Tables}
+
+% Provided puzzle figures
 \begin{figure}
     \addgraphic{website_puzzle_validity_enforced_graph}
     \fitnessplotcaption{Penalty Function EA with the Validity Enforced, Provided Puzzle}
@@ -75,6 +128,31 @@ dominating the population, no search gradient is provided and the EA struggles t
 \end{figure}
 
 \begin{figure}
+    \addgraphic{website_puzzle_validity_enforced_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Provided Puzzle}
+    \label{fig:website_puzzle_validity_enforced_vanilla_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_uniform_random_graph}
+    \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Provided Puzzle}
+    \label{fig:website_puzzle_uniform_random_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_uniform_random_bonus_graph}
+    \fitnessplotcaption{Repair Function EA with the Uniform Random Initialized, Provided Puzzle}
+    \label{fig:website_puzzle_uniform_random_bonus_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_uniform_random_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Provided Puzzle}
+    \label{fig:website_puzzle_uniform_random_vanilla_graph}
+\end{figure}
+
+% Randomly generated puzzle figures
+\begin{figure}
     \addgraphic{random_gen_validity_enforced_graph}
     \fitnessplotcaption{Penalty Function EA with the Validity Enforced, Randomly Generated Puzzle}
     \label{fig:random_gen_validity_enforced_graph}
@@ -86,7 +164,50 @@ dominating the population, no search gradient is provided and the EA struggles t
     \label{fig:random_gen_validity_enforced_bonus_graph}
 \end{figure}
 
-\begin{table}[h]
+\begin{figure}
+    \addgraphic{random_gen_validity_enforced_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Randomly Generated Puzzle}
+    \label{fig:random_gen_validity_enforced_vanilla_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_uniform_random_graph}
+    \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+    \label{fig:random_gen_uniform_random_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_uniform_random_bonus_graph}
+    \fitnessplotcaption{Repair Function EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+    \label{fig:random_gen_uniform_random_bonus_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{random_gen_uniform_random_vanilla_graph}
+    \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Randomly Generated Puzzle}
+    \label{fig:random_gen_uniform_random_vanilla_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_validity_enforced_small_penalty_graph}
+    \fitnessplotcaption{Penalty Function (with Small Penalty Coefficient = 0.25) EA with the Validity Enforced, Provided Puzzle}
+    \label{fig:website_puzzle_validity_enforced_small_penalty_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_validity_enforced_graph}
+    \fitnessplotcaption{Penalty Function (with Large Penalty Coefficient = 3) EA with the Validity Enforced, Provided Puzzle}
+    \label{fig:website_puzzle_validity_enforced_med_penalty_graph}
+\end{figure}
+
+\begin{figure}
+    \addgraphic{website_puzzle_validity_enforced_large_penalty_graph}
+    \fitnessplotcaption{Penalty Function (with Large Penalty Coefficient = 10) EA with the Validity Enforced, Provided Puzzle}
+    \label{fig:website_puzzle_validity_enforced_large_penalty_graph}
+\end{figure}
+
+% Tables
+\begin{table}[]
     \tablecaption{Validity Enforced Penalty Function and Repair function, Randomly Generated Puzzle}
     \label{rand_constr}
     \resizebox{\textwidth}{!}{%
@@ -138,36 +259,6 @@ dominating the population, no search gradient is provided and the EA struggles t
     }
 \end{table}
 
-\begin{figure}
-    \addgraphic{website_puzzle_validity_enforced_vanilla_graph}
-    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Provided Puzzle}
-    \label{fig:website_puzzle_validity_enforced_vanilla_graph}
-\end{figure}
-
-\begin{figure}
-    \addgraphic{random_gen_validity_enforced_vanilla_graph}
-    \fitnessplotcaption{Plain-Vanilla EA with the Validity Enforced, Randomly Generated Puzzle}
-    \label{fig:random_gen_validity_enforced_vanilla_graph}
-\end{figure}
-
-
-\section{Initialization Comparisons}
-
-The effect of Validity Forced plus Uniform Random versus plain Uniform Random was examined
-regarding the plain-vanilla EA, the penalty function EA, and the repair function EA.
-
-The comparison for the plain-vanilla EA tested against the randomly generated puzzle
-(graphed in Figure \ref{fig:random_gen_uniform_random_vanilla_graph}
-and Figure \ref{fig:random_gen_validity_enforced_vanilla_graph}, and analyzed in Table \ref{uniform_vs_validity_vanilla_rand})
-proved that neither initialization method led to quantifiable improvements. Granted, neither plain-vanilla EA configuration
-managed to reliably find meaningful solutions.
-
-\begin{figure}
-    \addgraphic{random_gen_uniform_random_vanilla_graph}
-    \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Randomly Generated Puzzle}
-    \label{fig:random_gen_uniform_random_vanilla_graph}
-\end{figure}
-
 \begin{table}[]
     \tablecaption{Uniform Random Initialized Vanilla and Validity Enforced Initalized Vanilla, Randomly Generated Puzzle}
     \label{uniform_vs_validity_vanilla_rand}
@@ -193,37 +284,6 @@ managed to reliably find meaningful solutions.
     \end{tabular}%
     }
 \end{table}
-
-Figure \ref{fig:random_gen_validity_enforced_graph} and Figure \ref{fig:random_gen_uniform_random_graph} 
-illustrate the penalty function EA configuration tested with both Uniform Random and 
-Validity Enforced plus Uniform Random for randomly generated puzzles. Figure \ref{fig:website_puzzle_validity_enforced_graph} 
-and Figure \ref{fig:website_puzzle_uniform_random_graph} illustrate
-the same comparison for the provided puzzle. The statistical analysis comparing these two 
-configurations can be found in Table \ref{uniform_penalty_vs_validity_penalty_rand} and Table \ref{uniform_vs_validity_penalty_provided}.
-
-The statistical analysis showed that for randomly generated puzzles, neither initialization method
-made a quantifiable improvement on the EA's results. Randomly generated puzzles are generally less
-complicated to solve, so the Validity Enforced initialization's lack of impact in this case is justified.
-
-The analysis also showed that the EA was more sensitive to initialization configuration
-for the provided puzzle, an objectively difficult puzzle to solve. The Validity Enforced Uniform Random
-initialization configured EA proved to be statistically better than the Uniform Random initialization
-configured EA for this problem instance. Since enforcing validity upon initialization shrinks the search space by ensuring the validity
-of conditions that can only be fulfilled one way (such as a `3' valued black cell placed along an edge),
-and since the search space is more difficult to traverse for highly difficult puzzles, Validity Enforced
-Uniform Random initialization produces a higher performing EA for the provided puzzle.
-
-\begin{figure}
-    \addgraphic{website_puzzle_uniform_random_graph}
-    \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Provided Puzzle}
-    \label{fig:website_puzzle_uniform_random_graph}
-\end{figure}
-
-\begin{figure}
-    \addgraphic{random_gen_uniform_random_graph}
-    \fitnessplotcaption{Penalty Function EA with the Uniform Random Initialized, Randomly Generated Puzzle}
-    \label{fig:random_gen_uniform_random_graph}
-\end{figure}
 
 \begin{table}[]
     \tablecaption{Uniform Random Initialized Penalty Function and Validity Enforced Initalized Penalty Function, Randomly Generated Puzzle}
@@ -277,12 +337,6 @@ Uniform Random initialization produces a higher performing EA for the provided p
     }
 \end{table}
 
-
-
-
-
-
-
 \begin{table}[]
     \tablecaption{Uniform Random Initialized Repair Function and Validity Enforced Initalized Repair Function, Randomly Generated Puzzle}
     \label{uniform_vs_validity_repair_rand}
@@ -309,8 +363,6 @@ Uniform Random initialization produces a higher performing EA for the provided p
     }
 \end{table}
 
-
-
 \begin{table}[]
     \tablecaption{Uniform Random Initialized Repair Function and Validity Enforced Initalized Repair Function, Provided Puzzle}
     \label{uniform_vs_validity_repair_provided}
@@ -333,6 +385,32 @@ Uniform Random initialization produces a higher performing EA for the provided p
     P two-tail                                                                                                            & 0.12835995483574056                     &                                            \\ \hline
     t Critical two-tail                                                                                                   & 2.0395                                  &                                            \\ \hline
     Nether website\_puzzle\_validity\_enforced\_bonus nor website\_puzzle\_uniform\_random\_bonus is statistically better &                                         &                                            \\ \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\begin{table}[]
+    \tablecaption{Valadity Inforced Initialized Penalty Function with Small Penalty and Medium Penalty, Provided Puzzle}
+    \label{small_vs_med}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+    \hline
+                                                                                                                        & website\_puzzle\_validity\_enforced\_small\_penalty & website\_puzzle\_validity\_enforced \\ \hline
+    mean                                                                                                                 & 0.9291666666666667                                  & 0.7569819819819819                  \\ \hline
+    variance                                                                                                             & 0.00010251805859913959                              & 0.0033889801964126286               \\ \hline
+    standard deviation                                                                                                   & 0.010125120177022077                                & 0.05821494822133426                 \\ \hline
+    observations                                                                                                         & 30                                                  & 30                                  \\ \hline
+    df                                                                                                                   & 29                                                  & 29                                  \\ \hline
+    F                                                                                                                    & 0.030250415363199546                                &                                     \\ \hline
+    F critical                                                                                                           & 0.5373999648406917                                  &                                     \\ \hline
+    Equal variances assumed                                                                                              &                                                     &                                     \\ \hline
+                                                                                                                        &                                                     &                                     \\ \hline
+    observations                                                                                                         & 30                                                  &                                     \\ \hline
+    df                                                                                                                   & 58                                                  &                                     \\ \hline
+    t Stat                                                                                                               & 15.69233619401264                                   &                                     \\ \hline
+    P two-tail                                                                                                           & 1.5429129447240864e-22                              &                                     \\ \hline
+    t Critical two-tail                                                                                                  & 2.0017                                              &                                     \\ \hline
+    website\_puzzle\_validity\_enforced\_small\_penalty is statistically better than website\_puzzle\_validity\_enforced &                                                     &                                     \\ \hline
     \end{tabular}%
     }
 \end{table}
@@ -388,51 +466,5 @@ Uniform Random initialization produces a higher performing EA for the provided p
     \end{tabular}%
     }
 \end{table}
-
-\begin{table}[]
-    \tablecaption{Valadity Inforced Initialized Penalty Function with Small Penalty and Medium Penalty, Provided Puzzle}
-    \label{small_vs_med}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|l|l|}
-    \hline
-                                                                                                                        & website\_puzzle\_validity\_enforced\_small\_penalty & website\_puzzle\_validity\_enforced \\ \hline
-    mean                                                                                                                 & 0.9291666666666667                                  & 0.7569819819819819                  \\ \hline
-    variance                                                                                                             & 0.00010251805859913959                              & 0.0033889801964126286               \\ \hline
-    standard deviation                                                                                                   & 0.010125120177022077                                & 0.05821494822133426                 \\ \hline
-    observations                                                                                                         & 30                                                  & 30                                  \\ \hline
-    df                                                                                                                   & 29                                                  & 29                                  \\ \hline
-    F                                                                                                                    & 0.030250415363199546                                &                                     \\ \hline
-    F critical                                                                                                           & 0.5373999648406917                                  &                                     \\ \hline
-    Equal variances assumed                                                                                              &                                                     &                                     \\ \hline
-                                                                                                                        &                                                     &                                     \\ \hline
-    observations                                                                                                         & 30                                                  &                                     \\ \hline
-    df                                                                                                                   & 58                                                  &                                     \\ \hline
-    t Stat                                                                                                               & 15.69233619401264                                   &                                     \\ \hline
-    P two-tail                                                                                                           & 1.5429129447240864e-22                              &                                     \\ \hline
-    t Critical two-tail                                                                                                  & 2.0017                                              &                                     \\ \hline
-    website\_puzzle\_validity\_enforced\_small\_penalty is statistically better than website\_puzzle\_validity\_enforced &                                                     &                                     \\ \hline
-    \end{tabular}%
-    }
-\end{table}
-
-
-
-\begin{figure}
-    \addgraphic{website_puzzle_uniform_random_bonus_graph}
-    \fitnessplotcaption{Repair Function EA with the Uniform Random Initialized, Provided Puzzle}
-    \label{fig:website_puzzle_uniform_random_bonus_graph}
-\end{figure}
-
-\begin{figure}
-    \addgraphic{random_gen_uniform_random_bonus_graph}
-    \fitnessplotcaption{Repair Function EA with the Uniform Random Initialized, Randomly Generated Puzzle}
-    \label{fig:random_gen_uniform_random_bonus_graph}
-\end{figure}
-
-\begin{figure}
-    \addgraphic{website_puzzle_uniform_random_vanilla_graph}
-    \fitnessplotcaption{Plain-Vanilla EA with the Uniform Random Initialized, Provided Puzzle}
-    \label{fig:website_puzzle_uniform_random_vanilla_graph}
-\end{figure}
 
 \end{document}
