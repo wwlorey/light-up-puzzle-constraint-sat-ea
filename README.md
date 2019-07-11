@@ -1,3 +1,5 @@
+#### CS 5401 Evolutionary Computing | Solving light up (Akari) puzzles using a constraint satisfaction evolutionary algorithm (EA)
+
 #################################
 #   Deliverables Note   #
 #################################
@@ -15,6 +17,8 @@ To compile and run the code, simply run the following script. This defaults to u
 Or, include the optional configuration file parameter.
 
 	./run.sh config/deliverables/website_puzzle_validity_enforced.cfg
+
+#### Provided README:
 
 #################################
 #	Coding Standards	#
